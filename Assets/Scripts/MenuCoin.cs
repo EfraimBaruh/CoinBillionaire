@@ -79,7 +79,7 @@ public class MenuCoin : MonoBehaviour
         
     }
 
-    public void Initilaze()
+    public void Initialize()
     {
         _coin.previousPrice = _coin.price;
         icon.sprite = _coin.icon;

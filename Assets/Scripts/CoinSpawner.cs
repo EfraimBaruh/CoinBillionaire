@@ -24,6 +24,7 @@ public class CoinSpawner : MonoBehaviour
     public Action<Coin> onCoinSpawn, onCoinDespawn;
 
     private List<int> coinsInUse = new List<int>();
+    private Queue<Coin> coinsToSpawn = new Queue<Coin>();
 
     private float counter = 0;
 
@@ -53,7 +54,7 @@ public class CoinSpawner : MonoBehaviour
             MenuCoin menuC = coin.GetComponent<MenuCoin>();
             menuC.Coin = coinList.coins[coinIndex];
             menuC.UpdateSpeed = Random.Range(10, 30);
-            menuC.Initilaze();
+            menuC.Initialize();
             onCoinSpawn.Invoke(menuC.Coin);
             
             yield return new WaitForSecondsRealtime(spawnTime);
@@ -93,6 +94,7 @@ public class CoinSpawner : MonoBehaviour
     private void OnCoinDespawned(Coin coin)
     {
         coinsInUse.Remove(coin.id);
+        coinsToSpawn.Enqueue(coin);
     }
     
     private void OnEnable()
