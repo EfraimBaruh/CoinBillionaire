@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -60,7 +59,7 @@ public class MenuCoin : MonoBehaviour
     
     private Rigidbody2D _rigidbody2D;
 
-    private Action onCoinUpdate;
+    private Action _onCoinUpdate;
     private void Awake()
     {
         coinButton = GetComponent<Button>();
@@ -74,8 +73,8 @@ public class MenuCoin : MonoBehaviour
     {
         #region Subscribe
         coinButton.onClick.AddListener(ExchangeCoin);
-        onCoinUpdate += SetPriceText;
-        onCoinUpdate += SetPercentageText;
+        _onCoinUpdate += SetPriceText;
+        _onCoinUpdate += SetPercentageText;
 
         CoinSpawner.instance.onCoinDespawn += DestoryAction;
 
@@ -95,7 +94,9 @@ public class MenuCoin : MonoBehaviour
     private void FixedUpdate()
     {
         //TODO: Increase force @ the edges.
-        Vector3 direction = (transform.parent.position - transform.position).normalized;
+        var transform1 = transform;
+        Vector3 direction = (transform1.parent.position - transform1.position).normalized;
+        direction /= 3;
         _rigidbody2D.AddForce(direction, ForceMode2D.Impulse);
     }
 
@@ -103,8 +104,8 @@ public class MenuCoin : MonoBehaviour
     {
         #region Unsubscribe
         coinButton.onClick.RemoveListener(ExchangeCoin);
-        onCoinUpdate -= SetPriceText;
-        onCoinUpdate -= SetPercentageText;
+        _onCoinUpdate -= SetPriceText;
+        _onCoinUpdate -= SetPercentageText;
         #endregion
     }
 
@@ -126,13 +127,13 @@ public class MenuCoin : MonoBehaviour
     private void BuyCoin()
     {
         Wallet.Singleton.BuyCoin(_coin);
-        CoinSpawner.instance.onCoinUse(_coin);
+        CoinSpawner.instance.DOOnCoinUse(_coin);
     }
     
     private void SellCoin()
     {
         Wallet.Singleton.SellCoin(_coin);
-        CoinSpawner.instance.onCoinNoUse(_coin);
+        CoinSpawner.instance.DOOnCoinNoUse(_coin);
     }
     
     #endregion
@@ -154,7 +155,7 @@ public class MenuCoin : MonoBehaviour
 
     private void UpdateCoinState(int ratio)
     {
-        _ratio = (int)ratio * Random.Range(0.01f, 0.1f);
+        _ratio = ratio * Random.Range(0.01f, 0.1f);
         UpdateState();
         UpdateSprite();
     }
@@ -181,7 +182,7 @@ public class MenuCoin : MonoBehaviour
             UpdatePercentage(); 
             UpdateCoinSize();
             UpdateCoinMass();
-            onCoinUpdate.Invoke();
+            _onCoinUpdate.Invoke();
             Wallet.UpdateWallet.Invoke();
 
             yield return new WaitForSecondsRealtime(UpdateCoinTime);

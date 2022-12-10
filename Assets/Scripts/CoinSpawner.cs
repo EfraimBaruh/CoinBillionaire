@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -28,9 +27,9 @@ public class CoinSpawner : MonoBehaviour
     public Action<Coin> onCoinSpawn, onCoinDespawn;
     #endregion
 
-    private List<Coin> coinsInUse = new List<Coin>();
-    private Queue<Coin> Spawn = new Queue<Coin>();
-    private Queue<Coin> DeSpawn = new Queue<Coin>();
+    private List<Coin> coinsInUse = new();
+    private Queue<Coin> _spawn = new();
+    private Queue<Coin> _deSpawn = new();
 
 
     private void Awake()
@@ -40,18 +39,22 @@ public class CoinSpawner : MonoBehaviour
 
     void Start()
     {
-        maxSpawnPos = spawnArea.position + (Vector3)(spawnArea.rect.max);
-        minSpawnPos = spawnArea.position + (Vector3)(spawnArea.rect.min);
+        var position = spawnArea.position;
+        var rect = spawnArea.rect;
+        maxSpawnPos = position + (Vector3)(rect.max);
+        minSpawnPos = position + (Vector3)(rect.min);
 
-        Spawn = new Queue<Coin>(coinList.coins);
+        _spawn = new Queue<Coin>(coinList.coins);
         StartCoroutine(Core());
     }
 
     private IEnumerator Core()
     {
+        yield return null;
+        
         while (true)
         {
-            var currentCoinCount = DeSpawn.Count + coinsInUse.Count;
+            var currentCoinCount = _deSpawn.Count + coinsInUse.Count;
 
             if (currentCoinCount < coinSize)
                 SpawnCoin();
@@ -64,7 +67,7 @@ public class CoinSpawner : MonoBehaviour
 
     private void SpawnCoin()
     {
-        Coin spawnCoin = Spawn.Dequeue();
+        Coin spawnCoin = _spawn.Dequeue();
         GameObject coin = Instantiate(menuCoin, spawnArea);
 
         coin.transform.position = GetSpawnPos();
@@ -81,15 +84,15 @@ public class CoinSpawner : MonoBehaviour
     // TODO: coin dispose system for: keep coins in the portfolio if you have them in wallet, else wait for its time.
     private void DespawnCoin()
     {
-        Coin coin = DeSpawn.Dequeue();
+        Coin coin = _deSpawn.Dequeue();
         onCoinDespawn.Invoke(coin);
     }
 
     private Vector3 GetSpawnPos()
     {
-        Vector3 spawnpos = spawnArea.position;
+        Vector3 spawnpos;
 
-        float posX = (int)Random.Range(0, 2) == 0 ? minSpawnPos.x : maxSpawnPos.x;
+        float posX = Random.Range(0, 2) == 0 ? minSpawnPos.x : maxSpawnPos.x;
         float posY = Random.Range(minSpawnPos.y, maxSpawnPos.y);
 
         spawnpos = new Vector2(posX, posY);
@@ -97,33 +100,33 @@ public class CoinSpawner : MonoBehaviour
         return spawnpos;
     }
 
-    public void onCoinUse(Coin coin)
+    public void DOOnCoinUse(Coin coin)
     {
         if(coinsInUse.Contains(coin))
             return;
         
         coinsInUse.Add(coin);
         // Test
-        List<Coin> coins = DeSpawn.ToList();
+        List<Coin> coins = _deSpawn.ToList();
         coins.Remove(coin);
-        DeSpawn.Clear();
-        DeSpawn = new Queue<Coin>(coins);
+        _deSpawn.Clear();
+        _deSpawn = new Queue<Coin>(coins);
     }
 
-    public void onCoinNoUse(Coin coin)
+    public void DOOnCoinNoUse(Coin coin)
     {
         coinsInUse.Remove(coin);
-        DeSpawn.Enqueue(coin);
+        _deSpawn.Enqueue(coin);
     }
 
     private void OnCoinSpawned(Coin coin)
     {
-        DeSpawn.Enqueue(coin);
+        _deSpawn.Enqueue(coin);
     }
 
     private void OnCoinDespawned(Coin coin)
     {
-        Spawn.Enqueue(coin);
+        _spawn.Enqueue(coin);
     }
     
     private void OnEnable()

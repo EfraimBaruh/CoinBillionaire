@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/CoinSpawner.unity
     guid: 3fc8acdd13e6c734bafef6554d6fdbcd
   - enabled: 1
-    path: Assets/Scenes/MyCity.unity
+    path: Assets/Scenes/HeistCity.unity
     guid: f6af4b1bc5b2c47239bc47d4d4621fa0
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 5208eafda4904450290584665f2c1282, type: 2}
