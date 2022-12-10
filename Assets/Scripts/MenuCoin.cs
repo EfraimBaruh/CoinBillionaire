@@ -5,6 +5,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Button))]
 public class MenuCoin : MonoBehaviour
@@ -75,8 +76,11 @@ public class MenuCoin : MonoBehaviour
         coinButton.onClick.AddListener(ExchangeCoin);
         onCoinUpdate += SetPriceText;
         onCoinUpdate += SetPercentageText;
+
+        CoinSpawner.instance.onCoinDespawn += DestoryAction;
+
         #endregion
-        
+
     }
 
     public void Initialize()
@@ -104,6 +108,11 @@ public class MenuCoin : MonoBehaviour
         #endregion
     }
 
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
     #region Coin Exchange
     
     private void ExchangeCoin()
@@ -117,11 +126,13 @@ public class MenuCoin : MonoBehaviour
     private void BuyCoin()
     {
         Wallet.Singleton.BuyCoin(_coin);
+        CoinSpawner.instance.onCoinUse(_coin);
     }
     
     private void SellCoin()
     {
         Wallet.Singleton.SellCoin(_coin);
+        CoinSpawner.instance.onCoinNoUse(_coin);
     }
     
     #endregion
@@ -129,22 +140,23 @@ public class MenuCoin : MonoBehaviour
 
     private IEnumerator UpdateCoinState()
     {
-        int counter = 0;
         while (true)
         {
-            counter += updateSpeed;
-            counter %= 360;
-            _ratio = Mathf.Sin(counter * (MathF.PI) / 180f);
+            ChangeRatio ratio = Utils.GetCoinChangeRatio();
+
+            _ratio = (int)ratio * Random.Range(-0.2f, 0.2f);
             UpdateState();
             UpdateSprite();
             
             yield return new WaitForSecondsRealtime(UpdateStateTime);
         }
-        
-        
-        CoinSpawner.instance.onCoinDespawn.Invoke(_coin);
-        Destroy(gameObject);
-        
+    }
+
+    private void UpdateCoinState(int ratio)
+    {
+        _ratio = (int)ratio * Random.Range(0.01f, 0.1f);
+        UpdateState();
+        UpdateSprite();
     }
     
     private void UpdateState()
@@ -174,14 +186,13 @@ public class MenuCoin : MonoBehaviour
 
             yield return new WaitForSecondsRealtime(UpdateCoinTime);
         }
-        yield return null;
     }
 
     private void UpdatePrice()
     {
         _coin.previousPrice = _coin.price;
 
-        _coin.price += _coin.previousPrice * _ratio;
+        _coin.price = _coin.previousPrice + _ratio;
 
         ControlPrice();
     }
@@ -229,15 +240,30 @@ public class MenuCoin : MonoBehaviour
     {
         if (_coin.price <= 0)
         {
-            _coin.price = 0.2f;
+            _coin.price = 0.0f;
             _coin.previousPrice = _coin.price;
+            ChangeRatio ratio = Utils.GetCoinChangeRatio();
+            UpdateCoinState((int)ratio);
         }
     }
     
     #endregion
-    
-    private void OnDestroy()
+
+    private void DestoryAction(Coin coin)
     {
-        StopAllCoroutines();
+        if (coin == _coin)
+        {
+            float upScale = transform.localScale.x;
+            upScale *= 1.3f;
+            Sequence sequence = DOTween.Sequence();
+            sequence
+                .Append(transform.DOScale(Vector3.one * upScale, 0.4f))
+                .Append(transform.DOScale(Vector3.zero, 0.4f))
+                .OnComplete(() =>
+                {
+                    Destroy(gameObject);
+                });
+        }
     }
+    
 }

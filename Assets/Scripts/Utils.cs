@@ -1,6 +1,9 @@
 
+using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
+using Random = UnityEngine.Random;
 
 public enum ChangeRatio
 {
@@ -54,4 +57,10 @@ public static class Utils
 
         return difference;
     }
+
+
+}
+
+public class T
+{
 }
