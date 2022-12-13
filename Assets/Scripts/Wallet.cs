@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Wallet : MonoBehaviour
@@ -40,6 +38,9 @@ public class Wallet : MonoBehaviour
         cashAble.text = USD.ToString("F1");
 
         TotalValue = USD + total;
+
+        AppData.SetTotalValue(TotalValue);
+        AppData.SetUSD(USD);
     }
 
     public void SellCoin(Coin coin)
@@ -77,23 +78,14 @@ public class Wallet : MonoBehaviour
     private void OnEnable()
     {
         UpdateWallet += CalculateTotalAssetValue;
-        
-        // Set total Value from player prefs, if first time, then set as initial assets.
-        if (PlayerPrefs.HasKey("totalValue"))
-        {
-            TotalValue = PlayerPrefs.GetFloat("totalValue");
-        }
-        else
-        {
-            TotalValue = USD;
-        }
+
+        TotalValue = AppData.TotalValue;
+        USD = AppData.USD;
     }
     
     private void OnDisable()
     {
         UpdateWallet -= CalculateTotalAssetValue;
         
-        // Save asset values to Player Prefs.
-        PlayerPrefs.SetFloat("totalValue", TotalValue);
     }
 }

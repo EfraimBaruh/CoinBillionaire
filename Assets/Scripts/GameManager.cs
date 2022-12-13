@@ -1,3 +1,5 @@
+using System;
+using UnityEditor;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -5,16 +7,6 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public AppConfig appConfig;
-    
-    void Start()
-    {
-        instance = this;
-
-        if(PlayerPrefs.HasKey("IsInitialized"))
-            RetrieveData();
-        else
-            InitializeData();
-    }
 
     private void InitializeData()
     {
@@ -27,17 +19,37 @@ public class GameManager : MonoBehaviour
     {
         AppData.TotalValue = PlayerPrefs.GetFloat("TotalValue");
         AppData.USD = PlayerPrefs.GetFloat("USD");
-        AppData.vibration = bool.Parse(PlayerPrefs.GetString("vibration"));
-        AppData.musicLevel = PlayerPrefs.GetFloat("musicLevel");
-        AppData.soundLevel = PlayerPrefs.GetFloat("soundLevel");
+        AppData.Vibration = bool.Parse(PlayerPrefs.GetString("vibration"));
+        AppData.MusicLevel = PlayerPrefs.GetFloat("musicLevel");
+        AppData.SoundLevel = PlayerPrefs.GetFloat("soundLevel");
     }
     
     private void WriteData()
     {
         PlayerPrefs.SetFloat("TotalValue", AppData.TotalValue);
         PlayerPrefs.SetFloat("USD", AppData.USD);
-        PlayerPrefs.SetString("vibration", AppData.vibration.ToString());
-        PlayerPrefs.SetFloat("musicLevel", AppData.musicLevel);
-        PlayerPrefs.SetFloat("soundLevel", AppData.soundLevel);
+        PlayerPrefs.SetString("vibration", AppData.Vibration.ToString());
+        PlayerPrefs.SetFloat("musicLevel", AppData.MusicLevel);
+        PlayerPrefs.SetFloat("soundLevel", AppData.SoundLevel);
+    }
+
+    private void OnEnable()
+    {
+        instance = this;
+
+        if(PlayerPrefs.HasKey("IsInitialized"))
+            RetrieveData();
+        else
+            InitializeData();
+    }
+
+    private void OnDisable()
+    {
+        WriteData();
+    }
+
+    private void OnApplicationQuit()
+    {
+        WriteData();
     }
 }
