@@ -33,7 +33,7 @@ public class CashItem : MonoBehaviour
 
     private Vector3 RandomOffset()
     {
-        var size = cashAble._locker.GetComponent<RectTransform>().sizeDelta;
+        var size = new Vector2(1f, 1f);
         float x = Random.Range(-size.x / 2, size.x / 2);
         float y = Random.Range(-size.y / 2, size.y / 2);
         return new Vector2(x,y);

@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/HeistCity.unity
     guid: f6af4b1bc5b2c47239bc47d4d4621fa0
+  - enabled: 1
+    path: Assets/Scenes/HomeTown.unity
+    guid: dc3be9ce3797143008b8601edf7cecf2
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 5208eafda4904450290584665f2c1282, type: 2}
     com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: e6617866b44274315a25ff3717f252e6, type: 2}

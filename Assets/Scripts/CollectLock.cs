@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class CollectLock : MonoBehaviour
@@ -7,6 +8,8 @@ public class CollectLock : MonoBehaviour
     [SerializeField] private GameObject cashPrefab;
     private Transform collecter;
     private int _collectSize;
+
+    public UnityEvent onCashCollected;
     private void Start()
     {
         collecter = FindObjectOfType<CashCollecter>().transform;
@@ -28,5 +31,7 @@ public class CollectLock : MonoBehaviour
             cash.GetComponent<CashItem>().cashAble = new CashAble(stock, transform, collecter);
             cash.GetComponent<CashItem>().StartMovement();
         }
+        
+        onCashCollected.Invoke();
     }
 }

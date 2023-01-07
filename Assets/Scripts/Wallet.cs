@@ -13,6 +13,8 @@ public class Wallet : MonoBehaviour
     public static Wallet Singleton;
 
     public static Action UpdateWallet;
+    
+    public static Action onStackExchange;
 
     private static float TotalValue;
 
@@ -50,6 +52,7 @@ public class Wallet : MonoBehaviour
             USD += walletCoins[coin] * coin.price;
             walletCoins.Remove(coin);
             UpdateWallet.Invoke();
+            onStackExchange.Invoke();
             Debug.Log($"Sell coin {coin.id} completed.");
         }
     }
@@ -70,7 +73,7 @@ public class Wallet : MonoBehaviour
 
             USD -= coin.price;
             UpdateWallet.Invoke();
-            
+            onStackExchange.Invoke();
             Debug.Log($"Buy Coin {coin.id} completed.");
         }
     }

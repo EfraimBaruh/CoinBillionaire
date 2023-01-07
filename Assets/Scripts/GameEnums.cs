@@ -6,8 +6,9 @@ namespace GameEnums
 { 
     public enum Scene
     {
-        splash = 0,
-        game = 1,
-        city
+        Splash = 0,
+        Game = 1,
+        HeistCity = 2,
+        Town = 3
     }
 }

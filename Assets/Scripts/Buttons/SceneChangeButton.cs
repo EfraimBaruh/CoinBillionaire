@@ -9,6 +9,7 @@ namespace Buttons
 
         protected override void OnButtonPress()
         {
+            base.OnButtonPress();
             SceneManager.instance.SwapScene(sceneToSwap);
         }
     }
