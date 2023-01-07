@@ -39,11 +39,6 @@ public class CoinSpawner : MonoBehaviour
 
     void Start()
     {
-        var position = spawnArea.position;
-        var rect = spawnArea.rect;
-        maxSpawnPos = position + (Vector3)(rect.max);
-        minSpawnPos = position + (Vector3)(rect.min);
-
         _spawn = new Queue<Coin>(coinList.coins);
         StartCoroutine(Core());
     }
@@ -56,6 +51,9 @@ public class CoinSpawner : MonoBehaviour
         {
             var currentCoinCount = _deSpawn.Count + coinsInUse.Count;
 
+            /*Debug.LogError($"Despawn Queue: {_deSpawn.Count}");
+            Debug.LogError($"Coins in use Count: {coinsInUse.Count}");*/
+
             if (currentCoinCount < coinSize)
                 SpawnCoin();
             if (currentCoinCount >= coinSize)
@@ -67,6 +65,7 @@ public class CoinSpawner : MonoBehaviour
 
     private void SpawnCoin()
     {
+        // TODO: Spawn will be edited.
         Coin spawnCoin = _spawn.Dequeue();
         GameObject coin = Instantiate(menuCoin, spawnArea);
 

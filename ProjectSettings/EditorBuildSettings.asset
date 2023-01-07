@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Splash.unity
     guid: 1050ece308cc54c2b88a815207ff32a8
   - enabled: 1
-    path: Assets/Scenes/CoinSpawner.unity
+    path: Assets/Scenes/StockMarket.unity
     guid: 3fc8acdd13e6c734bafef6554d6fdbcd
   - enabled: 1
     path: Assets/Scenes/HeistCity.unity

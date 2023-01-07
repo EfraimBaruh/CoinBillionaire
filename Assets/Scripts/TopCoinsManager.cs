@@ -34,7 +34,7 @@ public class TopCoinsManager : MonoBehaviour
         float topLooser = 0;
         foreach (var coin in _coinList.coins)
         {
-            var percentage = Utils.CalculatePercentage(coin.previousPrice, coin.price);
+            var percentage = Utils.CalculatePercentage(coin.stagePrice, coin.price);
 
             if (percentage > topGainer)
             {

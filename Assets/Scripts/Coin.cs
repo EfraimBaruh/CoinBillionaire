@@ -14,6 +14,8 @@ public class Coin : ScriptableObject
 
     public float previousPrice;
 
+    public float stagePrice;
+
     public float percentage;
 
 }

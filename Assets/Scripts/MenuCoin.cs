@@ -84,6 +84,7 @@ public class MenuCoin : MonoBehaviour
 
     public void Initialize()
     {
+        _coin.stagePrice = _coin.price;
         _coin.previousPrice = _coin.price;
         icon.sprite = _coin.icon;
         
@@ -96,7 +97,6 @@ public class MenuCoin : MonoBehaviour
         //TODO: Increase force @ the edges.
         var transform1 = transform;
         Vector3 direction = (transform1.parent.position - transform1.position).normalized;
-        direction /= 3;
         _rigidbody2D.AddForce(direction, ForceMode2D.Impulse);
     }
 
@@ -204,7 +204,7 @@ public class MenuCoin : MonoBehaviour
 
         float currentPrice = _coin.price;
 
-        _coin.percentage = Utils.CalculatePercentage(previousPrice, currentPrice);
+        _coin.percentage = Utils.CalculatePercentage(_coin.stagePrice, currentPrice);
         
     }
 
@@ -223,7 +223,15 @@ public class MenuCoin : MonoBehaviour
 
     private void UpdateCoinMass()
     {
-        
+        var mass = _coin.price;
+        // Control natural log problem.
+        if (mass <= 1.4f)
+            mass = 1.4f;
+        else
+            mass = Mathf.Log(mass);
+
+        mass = mass * 19.25f - 5.21f; 
+        _rigidbody2D.mass = mass;
     }
 
     private void SetPriceText()
@@ -234,14 +242,14 @@ public class MenuCoin : MonoBehaviour
     private void SetPercentageText()
     {
         percentage.color = (int)_coinState == 0 ? Color.red : Color.green;
-        percentage.text = "%" + _coin.percentage.ToString("F0");
+        percentage.text = "%" + _coin.percentage.ToString("F1");
     }
 
     private void ControlPrice()
     {
-        if (_coin.price <= 0)
+        if (_coin.price <= 0.2f)
         {
-            _coin.price = 0.0f;
+            _coin.price = 0.2f;
             _coin.previousPrice = _coin.price;
             ChangeRatio ratio = Utils.GetCoinChangeRatio();
             UpdateCoinState((int)ratio);
@@ -254,6 +262,10 @@ public class MenuCoin : MonoBehaviour
     {
         if (coin == _coin)
         {
+            // No last minute buy.
+            coinButton.interactable = false;
+            
+            // put little bubble anim.
             float upScale = transform.localScale.x;
             upScale *= 1.3f;
             Sequence sequence = DOTween.Sequence();
