@@ -3834,13 +3834,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8d4b3ac8424d4f70b5421ec33f71f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnTime: 3
+  spawnTime: 0
   menuCoin: {fileID: 5994770027611969476, guid: 3462dac48275643ce9e6c2d4695a436c, type: 3}
   coinList: {fileID: 11400000, guid: c07c2927b87724fc6a7f066433f2f7b5, type: 2}
   spawnArea: {fileID: 431683276}
   maxSpawnPos: {x: 1.74, y: -0.2}
   minSpawnPos: {x: -1.77, y: -4.46}
-  coinSize: 10
+  coinSize: 8
 --- !u!1001 &1339983529
 PrefabInstance:
   m_ObjectHideFlags: 0

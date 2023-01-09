@@ -82,12 +82,14 @@ public class MenuCoin : MonoBehaviour
 
     }
 
-    public void Initialize()
+    public void Initialize(int ratio, int updateTime)
     {
         _coin.stagePrice = _coin.price;
         _coin.previousPrice = _coin.price;
         icon.sprite = _coin.icon;
-        
+
+        _ratio = ratio;
+        UpdateStateTime = updateTime;
         StartCoroutine(UpdateCoinState());
         StartCoroutine(UpdateCoin());
     }
@@ -95,9 +97,9 @@ public class MenuCoin : MonoBehaviour
     private void FixedUpdate()
     {
         //TODO: Increase force @ the edges.
-        var transform1 = transform;
+        /*var transform1 = transform;
         Vector3 direction = (transform1.parent.position - transform1.position).normalized;
-        _rigidbody2D.AddForce(direction, ForceMode2D.Impulse);
+        _rigidbody2D.AddForce(direction, ForceMode2D.Impulse);*/
     }
 
     private void OnDisable()
@@ -143,9 +145,7 @@ public class MenuCoin : MonoBehaviour
     {
         while (true)
         {
-            ChangeRatio ratio = Utils.GetCoinChangeRatio();
-
-            _ratio = (int)ratio * Random.Range(-0.2f, 0.2f);
+            _ratio *= -1; 
             UpdateState();
             UpdateSprite();
             
@@ -155,7 +155,7 @@ public class MenuCoin : MonoBehaviour
 
     private void UpdateCoinState(int ratio)
     {
-        _ratio = ratio * Random.Range(0.01f, 0.1f);
+       // _ratio = ratio * Random.Range(0.01f, 0.1f);
         UpdateState();
         UpdateSprite();
     }
@@ -210,8 +210,10 @@ public class MenuCoin : MonoBehaviour
 
     private void UpdateCoinSize()
     {
-        float size = 0.2479f * Mathf.Log(_coin.price) + 0.963f;
-
+        float Targetsize = transform.localScale.x;
+        Targetsize = _coin.percentage < 1.35 ? Targetsize : _coin.percentage;
+        float size = 0.4479f * Mathf.Log(Targetsize) + 0.963f;
+        
         size = Mathf.Round(size * 100) / 100f;
 
         // control min max values.
@@ -251,8 +253,8 @@ public class MenuCoin : MonoBehaviour
         {
             _coin.price = 0.2f;
             _coin.previousPrice = _coin.price;
-            ChangeRatio ratio = Utils.GetCoinChangeRatio();
-            UpdateCoinState((int)ratio);
+         //   ChangeRatio ratio = Utils.GetCoinChangeRatio();
+            UpdateCoinState((int)_ratio);
         }
     }
     

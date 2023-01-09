@@ -56,7 +56,7 @@ public class CoinSpawner : MonoBehaviour
 
             if (currentCoinCount < coinSize)
                 SpawnCoin();
-            if (currentCoinCount >= coinSize)
+            if (currentCoinCount > coinSize)
                 DespawnCoin();
 
             yield return new WaitForSeconds(spawnTime);
@@ -74,7 +74,22 @@ public class CoinSpawner : MonoBehaviour
         MenuCoin menuC = coin.GetComponent<MenuCoin>();
         menuC.Coin = spawnCoin;
         menuC.UpdateSpeed = Random.Range(10, 30);
-        menuC.Initialize();
+
+        int updateTime = 20;
+        int ratio = 0;
+
+        Debug.LogError(_spawn.Count);
+        if (_spawn.Count == 22)
+        {
+            ratio = 1;
+        }
+        else if (_spawn.Count > 22)
+        {
+            updateTime = 10;
+            ratio = 5;
+        }
+
+        menuC.Initialize(ratio, updateTime);
 
         onCoinSpawn.Invoke(menuC.Coin);
 
