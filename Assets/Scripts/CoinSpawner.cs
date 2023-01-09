@@ -56,7 +56,7 @@ public class CoinSpawner : MonoBehaviour
 
             if (currentCoinCount < coinSize)
                 SpawnCoin();
-            if (currentCoinCount >= coinSize)
+            if (currentCoinCount > coinSize)
                 DespawnCoin();
 
             yield return new WaitForSeconds(spawnTime);
@@ -91,7 +91,7 @@ public class CoinSpawner : MonoBehaviour
     {
         Vector3 spawnpos;
 
-        float posX = Random.Range(0, 2) == 0 ? minSpawnPos.x : maxSpawnPos.x;
+        float posX = Random.Range(minSpawnPos.x, maxSpawnPos.x);
         float posY = Random.Range(minSpawnPos.y, maxSpawnPos.y);
 
         spawnpos = new Vector2(posX, posY);

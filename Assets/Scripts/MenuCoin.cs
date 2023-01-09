@@ -94,10 +94,10 @@ public class MenuCoin : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //TODO: Increase force @ the edges.
+        /*//TODO: Increase force @ the edges.
         var transform1 = transform;
         Vector3 direction = (transform1.parent.position - transform1.position).normalized;
-        _rigidbody2D.AddForce(direction, ForceMode2D.Impulse);
+        _rigidbody2D.AddForce(direction, ForceMode2D.Impulse);*/
     }
 
     private void OnDisable()
