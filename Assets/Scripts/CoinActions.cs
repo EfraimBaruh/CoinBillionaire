@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,7 +12,11 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private Camera _mainCamera;
     #endregion
 
+    #region Fields
     private Vector2 _dragStartPosition;
+    private Vector2 _lastDragPosition;
+    #endregion
+
     private void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -28,16 +33,35 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         if (data.dragging)
         {
-            var direction = (data.position - _dragStartPosition).normalized;
+            var change = data.position - _dragStartPosition;
+            var direction = change.normalized;
+            var amplitude = change.magnitude;
+            var appliedAmplitude = (amplitude * 0.0045f) + 4.97f;
             
-            var position = _mainCamera.ScreenToWorldPoint(data.position);
+            _rigidbody2D.velocity = direction * appliedAmplitude;
+
+            Debug.LogError($"velocity: {_rigidbody2D.velocity}");
+           
+
+            /*var position = _mainCamera.ScreenToWorldPoint(data.position);
             transform.position = new Vector3(position.x, position.y, 0);
+
+            _lastDragPosition = data.position;*/
         }
     }
 
     public void OnEndDrag(PointerEventData data)
     {
+        Vector2 velocity = _rigidbody2D.velocity;
+        DOTween.To(() => velocity, x => velocity = x, Vector2.zero, 0.3f)
+            .OnUpdate(() =>
+            {
+                _rigidbody2D.velocity = velocity;
+                Debug.LogError($"after drag velocity: {_rigidbody2D.velocity}");
+            });
         
+       
+
     }
     
 }
