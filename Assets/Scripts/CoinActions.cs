@@ -1,5 +1,7 @@
 using DG.Tweening;
+using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -12,41 +14,45 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private Camera _mainCamera;
     #endregion
 
-    #region Fields
-    private Vector2 _dragStartPosition;
-    private Vector2 _lastDragPosition;
+    #region Properties
+    public LayerListSo dragAndReleaseLayers;
     #endregion
 
+    #region Fields
+    private Transform _marketArea;
+    private Transform _walletArea;
+    private float _walletEntrancePosY;
+    #endregion
+
+    #region Events
+    public UnityEvent onMarket;
+    public UnityEvent onWallet;
+    #endregion
+    
     private void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _circleCollider2D = GetComponent<CircleCollider2D>();
         _mainCamera = Camera.main;
+
+        _marketArea = CoinSpawner.instance.SpawnArea;
+        _walletArea = CoinSpawner.instance.WalletArea;
+        _walletEntrancePosY = CoinSpawner.instance.WalletEntrance.position.y;
     }
 
     public void OnBeginDrag(PointerEventData data)
     {
-        _dragStartPosition = data.position;
+        // Set drag layer.
+        gameObject.layer = dragAndReleaseLayers.onDragLayer;
     }
 
     public void OnDrag(PointerEventData data)
     {
         if (data.dragging)
         {
-            var change = data.position - _dragStartPosition;
-            var direction = change.normalized;
-            var amplitude = change.magnitude;
-            var appliedAmplitude = (amplitude * 0.0045f) + 4.97f;
-            
-            _rigidbody2D.velocity = direction * appliedAmplitude;
+            _rigidbody2D.velocity = data.delta/4;
 
-            Debug.LogError($"velocity: {_rigidbody2D.velocity}");
-           
-
-            /*var position = _mainCamera.ScreenToWorldPoint(data.position);
-            transform.position = new Vector3(position.x, position.y, 0);
-
-            _lastDragPosition = data.position;*/
+            ControlParent();
         }
     }
 
@@ -57,11 +63,30 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             .OnUpdate(() =>
             {
                 _rigidbody2D.velocity = velocity;
-                Debug.LogError($"after drag velocity: {_rigidbody2D.velocity}");
+            }).OnComplete(() =>
+            {
+                // Set layer to release state at the end of drag.
+                gameObject.layer = dragAndReleaseLayers.onReleaseLayer;
+                ControlAction();
             });
-        
-       
 
     }
+
+    private void ControlParent()
+    {
+        if(transform.position.y > _walletEntrancePosY)
+            transform.SetParent(_marketArea);
+        else
+            transform.SetParent(_walletArea);
+    }
+
+    private void ControlAction()
+    {
+        if(transform.parent == _marketArea)
+            onMarket.Invoke();
+        else
+            onWallet.Invoke();
+    }
+
     
 }

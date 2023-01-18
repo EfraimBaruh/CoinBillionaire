@@ -334,6 +334,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e274d40216294fd192c0a8d78f7865b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dragAndReleaseLayers: {fileID: 11400000, guid: b900080c2ec6e4a89a106b35bd48a786, type: 2}
+  onMarket:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8758064510647174107}
+        m_TargetAssemblyTypeName: MenuCoin, Assembly-CSharp
+        m_MethodName: SellCoin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onWallet:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8758064510647174107}
+        m_TargetAssemblyTypeName: MenuCoin, Assembly-CSharp
+        m_MethodName: BuyCoin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8201351450725104372
 GameObject:
   m_ObjectHideFlags: 0

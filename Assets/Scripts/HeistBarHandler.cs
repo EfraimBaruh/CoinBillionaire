@@ -1,32 +1,43 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 public class HeistBarHandler : MonoBehaviour
 {
     [SerializeField] private int currentMaxAmount;
     [SerializeField] private float nextMaxLevelMultiplier;
-    [SerializeField] private Slider heistBar;
+    private Material _walletBar;
 
     public UnityEvent onHeistAvailable;
 
     private void OnEnable()
     {
         Wallet.onStackExchange += UpdateHeistBar;
-        
-        currentMaxAmount = PlayerPrefs.GetInt("heistMaxCount");
+
+        if (PlayerPrefs.HasKey("heistMaxCount"))
+            currentMaxAmount = PlayerPrefs.GetInt("heistMaxCount");
+
     }
 
     private void Start()
     {
-        heistBar.maxValue = currentMaxAmount;
-        heistBar.value = AppData.TotalValue;
-        
+        InitiateBar();
+        SetBarValue(GetMappedValue(AppData.USD));
+
         ControlHeistStatus();
         
         Debug.LogError(AppData.TotalValue);
         Debug.LogError(currentMaxAmount);
 
+    }
+
+    private void InitiateBar()
+    {
+        Renderer barRenderer = GetComponentInChildren<Renderer>();
+        
+        if (barRenderer != null) {
+            _walletBar = new Material(barRenderer.material);
+            barRenderer.material = _walletBar;
+        }
     }
     
 
@@ -39,7 +50,7 @@ public class HeistBarHandler : MonoBehaviour
 
     private void UpdateHeistBar()
     {
-        heistBar.value = AppData.TotalValue;
+        SetBarValue(GetMappedValue(AppData.USD));
         ControlHeistStatus();
     }
 
@@ -65,5 +76,17 @@ public class HeistBarHandler : MonoBehaviour
     private int CalculateNextAim()
     {
         return (int)Mathf.Ceil(currentMaxAmount * nextMaxLevelMultiplier);
+    }
+
+    private float GetMappedValue(float value)
+    {
+        return value / currentMaxAmount;
+    }
+
+    private void SetBarValue(float value)
+    {
+        value = AppData.TotalValue - AppData.USD;
+        value /= AppData.TotalValue;
+        _walletBar.SetFloat("_Delta", value);
     }
 }

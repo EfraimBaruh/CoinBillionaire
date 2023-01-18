@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(Button))]
 public class MenuCoin : MonoBehaviour
 {
     [SerializeField] private Coin _coin;
@@ -72,7 +71,6 @@ public class MenuCoin : MonoBehaviour
     private void OnEnable()
     {
         #region Subscribe
-        coinButton.onClick.AddListener(ExchangeCoin);
         _onCoinUpdate += SetPriceText;
         _onCoinUpdate += SetPercentageText;
 
@@ -103,7 +101,6 @@ public class MenuCoin : MonoBehaviour
     private void OnDisable()
     {
         #region Unsubscribe
-        coinButton.onClick.RemoveListener(ExchangeCoin);
         _onCoinUpdate -= SetPriceText;
         _onCoinUpdate -= SetPercentageText;
         #endregion
@@ -115,22 +112,14 @@ public class MenuCoin : MonoBehaviour
     }
 
     #region Coin Exchange
-    
-    private void ExchangeCoin()
-    {
-        if (_coinState == 0)
-            SellCoin();
-        else
-            BuyCoin();
-    }
 
-    private void BuyCoin()
+    public void BuyCoin()
     {
         Wallet.Singleton.BuyCoin(_coin);
         CoinSpawner.instance.DOOnCoinUse(_coin);
     }
     
-    private void SellCoin()
+    public void SellCoin()
     {
         Wallet.Singleton.SellCoin(_coin);
         CoinSpawner.instance.DOOnCoinNoUse(_coin);

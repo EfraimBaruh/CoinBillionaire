@@ -12,9 +12,15 @@ public class CoinSpawner : MonoBehaviour
     [SerializeField] private CoinList coinList;
     [Header("Spawn Settings")]
     [SerializeField] private RectTransform spawnArea;
+    [SerializeField] private RectTransform walletArea;
+    [SerializeField] private Transform walletEntrance;
     [SerializeField] private Vector2 maxSpawnPos;
     [SerializeField] private Vector2 minSpawnPos;
     [SerializeField] private int coinSize;
+
+    public Transform WalletEntrance => walletEntrance;
+    public Transform WalletArea => walletArea;
+    public Transform SpawnArea => spawnArea;
 
     public CoinList Coins
     {
