@@ -171,7 +171,7 @@ public class MenuCoin : MonoBehaviour
             UpdatePercentage(); 
             UpdateCoinSize();
             UpdateCoinMass();
-            _onCoinUpdate.Invoke();
+            _onCoinUpdate?.Invoke();
             Wallet.UpdateWallet.Invoke();
 
             yield return new WaitForSecondsRealtime(UpdateCoinTime);

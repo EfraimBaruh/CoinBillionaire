@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class HeistBarHandler : MonoBehaviour
 {
     [SerializeField] private int currentMaxAmount;
     [SerializeField] private float nextMaxLevelMultiplier;
-    private Material _walletBar;
+    [SerializeField] private Slider slider;
 
     public UnityEvent onHeistAvailable;
 
@@ -21,23 +22,14 @@ public class HeistBarHandler : MonoBehaviour
     private void Start()
     {
         InitiateBar();
-        SetBarValue(GetMappedValue(AppData.USD));
+        SetBarValue(AppData.TotalValue);
 
         ControlHeistStatus();
-        
-        Debug.LogError(AppData.TotalValue);
-        Debug.LogError(currentMaxAmount);
-
     }
 
     private void InitiateBar()
     {
-        Renderer barRenderer = GetComponentInChildren<Renderer>();
-        
-        if (barRenderer != null) {
-            _walletBar = new Material(barRenderer.material);
-            barRenderer.material = _walletBar;
-        }
+        slider.maxValue = currentMaxAmount / 0.93f;
     }
     
 
@@ -50,7 +42,7 @@ public class HeistBarHandler : MonoBehaviour
 
     private void UpdateHeistBar()
     {
-        SetBarValue(GetMappedValue(AppData.USD));
+        SetBarValue(AppData.TotalValue);
         ControlHeistStatus();
     }
 
@@ -78,15 +70,8 @@ public class HeistBarHandler : MonoBehaviour
         return (int)Mathf.Ceil(currentMaxAmount * nextMaxLevelMultiplier);
     }
 
-    private float GetMappedValue(float value)
-    {
-        return value / currentMaxAmount;
-    }
-
     private void SetBarValue(float value)
     {
-        value = AppData.TotalValue - AppData.USD;
-        value /= AppData.TotalValue;
-        _walletBar.SetFloat("_Delta", value);
+        slider.value = AppData.TotalValue;
     }
 }

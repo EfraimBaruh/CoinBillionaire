@@ -57,12 +57,9 @@ public class CoinSpawner : MonoBehaviour
         {
             var currentCoinCount = _deSpawn.Count + coinsInUse.Count;
 
-            /*Debug.LogError($"Despawn Queue: {_deSpawn.Count}");
-            Debug.LogError($"Coins in use Count: {coinsInUse.Count}");*/
-
             if (currentCoinCount < coinSize)
                 SpawnCoin();
-            if (currentCoinCount > coinSize)
+            if (currentCoinCount >= coinSize)
                 DespawnCoin();
 
             yield return new WaitForSeconds(spawnTime);
@@ -116,12 +113,30 @@ public class CoinSpawner : MonoBehaviour
         coins.Remove(coin);
         _deSpawn.Clear();
         _deSpawn = new Queue<Coin>(coins);
+        
+        string que = "";
+        foreach (var coi in _deSpawn)
+        {
+            que += " " + coi.id;
+        }
+        Debug.LogError(que + " => Dequeue");
     }
 
     public void DOOnCoinNoUse(Coin coin)
     {
-        coinsInUse.Remove(coin);
-        _deSpawn.Enqueue(coin);
+        if (coinsInUse.Contains(coin))
+        {
+            coinsInUse.Remove(coin);
+            _deSpawn.Enqueue(coin);
+
+            string que = "";
+            foreach (var coi in _deSpawn)
+            {
+                que += " " + coi.id;
+            }
+
+            Debug.LogError(que + " => Enqueue");
+        }
     }
 
     private void OnCoinSpawned(Coin coin)
