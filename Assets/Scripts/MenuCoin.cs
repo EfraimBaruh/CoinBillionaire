@@ -144,7 +144,7 @@ public class MenuCoin : MonoBehaviour
 
     private void UpdateCoinState(int ratio)
     {
-        _ratio = ratio * Random.Range(0.01f, 0.1f);
+        _ratio = ratio * Random.Range(0.01f, 0.2f);
         UpdateState();
         UpdateSprite();
     }
@@ -199,7 +199,7 @@ public class MenuCoin : MonoBehaviour
 
     private void UpdateCoinSize()
     {
-        float size = 0.2479f * Mathf.Log(_coin.price) + 0.963f;
+        float size = 0.4347f * Mathf.Log(_coin.price) + 1.34f;
 
         size = Mathf.Round(size * 100) / 100f;
 

@@ -53,7 +53,7 @@ public class Wallet : MonoBehaviour
             walletCoins.Remove(coin);
             UpdateWallet.Invoke();
             onStackExchange.Invoke();
-            Debug.Log($"Sell coin {coin.id} completed.");
+            Debug.LogError($"Sell coin {coin.id} completed.");
         }
     }
 
@@ -63,18 +63,14 @@ public class Wallet : MonoBehaviour
         if (USD > coin.price)
         {
             if (walletCoins.ContainsKey(coin))
-            {
-                walletCoins[coin] += 1;
-            }
-            else
-            {
-                walletCoins.Add(coin, 1);
-            }
+                return;
+            
+            walletCoins.Add(coin, 1);
 
-            USD -= coin.price;
+                USD -= coin.price;
             UpdateWallet.Invoke();
             onStackExchange.Invoke();
-            Debug.Log($"Buy Coin {coin.id} completed.");
+            Debug.LogError($"Buy Coin {coin.id} completed.");
         }
     }
 

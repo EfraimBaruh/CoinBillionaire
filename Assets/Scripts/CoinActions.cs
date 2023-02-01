@@ -22,15 +22,22 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private Transform _marketArea;
     private Transform _walletArea;
     private float _walletEntrancePosY;
+    private MenuCoin _menuCoin;
     #endregion
 
     #region Events
     public UnityEvent onMarket;
     public UnityEvent onWallet;
     #endregion
-    
+
+    private void OnEnable()
+    {
+        CoinSpawner.instance.onCoinDespawn += DisableInteraction;
+    }
+
     private void Start()
     {
+        _menuCoin = GetComponent<MenuCoin>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _circleCollider2D = GetComponent<CircleCollider2D>();
         _mainCamera = Camera.main;
@@ -39,11 +46,18 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         _walletArea = CoinSpawner.instance.WalletArea;
         _walletEntrancePosY = CoinSpawner.instance.WalletEntrance.position.y;
     }
+    
+    private void OnDisable()
+    {
+        CoinSpawner.instance.onCoinDespawn -= DisableInteraction;
+    }
 
     public void OnBeginDrag(PointerEventData data)
     {
         // Set drag layer.
         gameObject.layer = dragAndReleaseLayers.onDragLayer;
+        
+        CoinSpawner.instance.DOOnCoinUse(_menuCoin.Coin);
     }
 
     public void OnDrag(PointerEventData data)
@@ -80,6 +94,11 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             transform.SetParent(_walletArea);
     }
 
+    private bool InWallet()
+    {
+        return transform.parent == _walletArea;
+    }
+
     private void ControlAction()
     {
         if(transform.parent == _marketArea)
@@ -87,6 +106,33 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         else
             onWallet.Invoke();
     }
+
+    public void SendBacktoMarket()
+    {
+
+        if (InWallet() && _rigidbody2D.velocity.magnitude == 0)
+        {
+            gameObject.layer = dragAndReleaseLayers.onDragLayer;
+            _rigidbody2D.velocity = Vector2.up * 50;
+            ControlParent();
+            ControlAction(); 
+            SendBacktoMarket();
+        }
+        else if(_rigidbody2D.velocity.magnitude > 0)
+        {
+            ControlParent();
+            OnEndDrag(new PointerEventData(EventSystem.current));
+        }
+    }
+
+    private void DisableInteraction(Coin coin)
+    {
+        if (coin == _menuCoin.Coin)
+        {
+            _rigidbody2D.bodyType = RigidbodyType2D.Static;
+        }
+    }
+    
 
     
 }

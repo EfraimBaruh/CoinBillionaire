@@ -262,7 +262,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8133181919976085418}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3275745826124856615}
+        m_TargetAssemblyTypeName: CoinActions, Assembly-CSharp
+        m_MethodName: SendBacktoMarket
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8758064510647174107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,10 +293,10 @@ MonoBehaviour:
   percentage: {fileID: 8201351452101130882}
   background_green: {fileID: 21300000, guid: cece8a76a8c2c4b0aa9f0ada86f34a1f, type: 3}
   background_red: {fileID: 21300000, guid: 35ca40b25292c4a8c98fda0acc98f540, type: 3}
-  minSize: 1.3
-  maxSize: 3
-  UpdateCoinTime: 1
-  UpdateStateTime: 5
+  minSize: 0.7
+  maxSize: 3.3
+  UpdateCoinTime: 0.1
+  UpdateStateTime: 8
 --- !u!50 &2508875796667128551
 Rigidbody2D:
   serializedVersion: 4

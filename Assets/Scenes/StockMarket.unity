@@ -2791,7 +2791,7 @@ MonoBehaviour:
   walletEntrance: {fileID: 2104774117}
   maxSpawnPos: {x: 1.77, y: 3.41}
   minSpawnPos: {x: -1.77, y: 0.92}
-  coinSize: 7
+  coinSize: 5
 --- !u!1 &1347363032
 GameObject:
   m_ObjectHideFlags: 0
@@ -3822,7 +3822,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 70.3, y: 0}
+  m_AnchoredPosition: {x: 70.29999, y: 0}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 1, y: 0.35}
 --- !u!114 &1907493090
