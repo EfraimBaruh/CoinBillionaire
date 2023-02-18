@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AppData
 {
+    private static int _gameLevel;
+    
     private static float _totalValue;
 
     private static float _uSD;
@@ -14,6 +16,11 @@ public class AppData
     
     private static bool _vibration;
 
+    public static int GameLevel
+    {
+        get { return _gameLevel; }
+        set { _gameLevel = value; }
+    }
     public static float TotalValue
     {
         get { return _totalValue; }

@@ -119,7 +119,7 @@ public class CoinSpawner : MonoBehaviour
         {
             que += " " + coi.id;
         }
-        Debug.LogError(que + " => Dequeue");
+        
     }
 
     public void DOOnCoinNoUse(Coin coin)
@@ -134,8 +134,6 @@ public class CoinSpawner : MonoBehaviour
             {
                 que += " " + coi.id;
             }
-
-            Debug.LogError(que + " => Enqueue");
         }
     }
 

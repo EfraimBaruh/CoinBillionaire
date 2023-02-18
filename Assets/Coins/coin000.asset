@@ -15,6 +15,7 @@ MonoBehaviour:
   id: 0
   Name: 0_dog
   icon: {fileID: 21300000, guid: aa13643a5d41c41b4b52a7b7d6d43322, type: 3}
-  price: 1.5561172
-  previousPrice: 1.4977148
-  percentage: 0.038994353
+  price: 13.3399315
+  previousPrice: 13.143813
+  stagePrice: 0.2
+  percentage: 65.69965

@@ -3412,7 +3412,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.91, y: 1}
-  m_AnchoredPosition: {x: 0, y: -2.074997}
+  m_AnchoredPosition: {x: 0, y: -2.0750122}
   m_SizeDelta: {x: 0, y: -50.430008}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1756475384
@@ -3919,7 +3919,8 @@ GameObject:
   - component: {fileID: 1925909355}
   - component: {fileID: 1925909354}
   - component: {fileID: 1925909357}
-  - component: {fileID: 1925909356}
+  - component: {fileID: 1925909359}
+  - component: {fileID: 1925909358}
   m_Layer: 5
   m_Name: HomeTown
   m_TagString: Untagged
@@ -3985,22 +3986,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925909352}
   m_CullTransparentMesh: 1
---- !u!114 &1925909356
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1925909352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cba9394d60f44e8e97f13387eb9768e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onButtonClick:
-    m_PersistentCalls:
-      m_Calls: []
-  sceneToSwap: 3
 --- !u!114 &1925909357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4045,6 +4030,50 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1925909358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925909352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8055ee83fda14a5fb5e609a5d4bcd2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _event: {fileID: 11400000, guid: 3cbc16428a72e4ea9837892e589fa017, type: 2}
+--- !u!114 &1925909359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925909352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 252aa4cf17e0e41bca39fbd80c9a931d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onButtonClick:
+    m_PersistentCalls:
+      m_Calls: []
+  openLevelScene:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1925909358}
+        m_TargetAssemblyTypeName: ScriptableEventSystem.StringEvent.ScriptableStringEventInvoker,
+          Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1936649187
 PrefabInstance:
   m_ObjectHideFlags: 0

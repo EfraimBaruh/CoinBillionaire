@@ -15,6 +15,7 @@ MonoBehaviour:
   id: 12
   Name: 
   icon: {fileID: 21300000, guid: b809767b742214ce983735bdfca3a432, type: 3}
-  price: 0.3
-  previousPrice: 0
+  price: 0.2
+  previousPrice: 0.2
+  stagePrice: 0
   percentage: -0.37332058
