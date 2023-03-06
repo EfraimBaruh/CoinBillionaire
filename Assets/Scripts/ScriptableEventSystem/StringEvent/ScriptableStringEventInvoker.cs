@@ -9,6 +9,7 @@ namespace ScriptableEventSystem.StringEvent
         
         public void Raise(string value)
         {
+            Debug.LogError("scene event raised " + value);
             _event.Raise(value);
         }
     }

@@ -4,7 +4,8 @@ using UnityEngine;
 public class LevelInfo
 {
     public int levelID;
-    public Object levelScene;
+    public string homeScene;
+    public string heistScene;
     public int heistReachPrice;
     public int heistGainPrice;
     public int maxPrice;

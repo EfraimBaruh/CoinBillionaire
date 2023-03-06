@@ -13,10 +13,7 @@ public class HeistBarHandler : MonoBehaviour
     private void OnEnable()
     {
         Wallet.onStackExchange += UpdateHeistBar;
-
-        if (PlayerPrefs.HasKey("heistMaxCount"))
-            currentMaxAmount = PlayerPrefs.GetInt("heistMaxCount");
-
+        currentMaxAmount = AppData.GameLevelInfo.heistReachPrice;
     }
 
     private void Start()

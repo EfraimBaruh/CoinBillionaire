@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 3483476130180790342}
   - component: {fileID: 706176718687564891}
   - component: {fileID: 6346812260574484206}
+  - component: {fileID: 4494414938709659687}
   m_Layer: 5
   m_Name: Lock
   m_TagString: Untagged
@@ -365,8 +366,9 @@ MonoBehaviour:
   onCashCollected:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: 137e2e3dac5e4485995ce0e41de3a5ea, type: 2}
-        m_TargetAssemblyTypeName: GameEvent, Assembly-CSharp
+      - m_Target: {fileID: 4494414938709659687}
+        m_TargetAssemblyTypeName: Highway_Racer.Scripts.ScriptableEventSystem.ScriptableEventInvoker,
+          Assembly-CSharp
         m_MethodName: Raise
         m_Mode: 1
         m_Arguments:
@@ -377,3 +379,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4494414938709659687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998059629689995123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eefb24e6a6b7d41c2bd41458ea288c2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _event: {fileID: 11400000, guid: 137e2e3dac5e4485995ce0e41de3a5ea, type: 2}

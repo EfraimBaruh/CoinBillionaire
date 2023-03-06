@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public enum ChangeRatio
@@ -52,6 +53,20 @@ public static class Utils
         float difference = (current - previous) / previous;
 
         return difference;
+    }
+
+    public static float GetRatio(float previousMax)
+    {
+        previousMax /= AppData.GameLevelInfo.maxPrice;
+        float ratio = 1;
+        if (Mathf.Approximately(previousMax, 1))
+            ratio = 0.6f;
+        if (Mathf.Approximately(previousMax, 0.6f))
+            ratio = 0.5f;
+        if (Mathf.Approximately(previousMax, 0.5f))
+            ratio =  1f;
+
+        return ratio;
     }
 
 

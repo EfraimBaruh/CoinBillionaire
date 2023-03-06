@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
-using Random = UnityEngine.Random;
 
 public class CollectLock : MonoBehaviour
 { 
@@ -13,7 +12,12 @@ public class CollectLock : MonoBehaviour
     private void Start()
     {
         collecter = FindObjectOfType<CashCollecter>().transform;
-        _collectSize = Random.Range(200, 500);
+        _collectSize = GetCashableStock();
+    }
+    
+    private int GetCashableStock()
+    {
+        return AppData.GameLevelInfo.heistGainPrice / HeistManager.Instance.TheftLockers;
     }
 
     public void Collect()

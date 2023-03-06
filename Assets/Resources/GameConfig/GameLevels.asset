@@ -14,16 +14,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelInfos:
   - levelID: 0
-    levelScene: {fileID: 102900000, guid: 8cf798363901c4aab9cfe1e380fe2a78, type: 3}
+    homeScene: HomeTown
+    heistScene: HeistCity
     heistReachPrice: 200
     heistGainPrice: 300
     maxPrice: 50
     maxCap: 130
     period: 60
   - levelID: 1
-    levelScene: {fileID: 102900000, guid: 8cf798363901c4aab9cfe1e380fe2a78, type: 3}
+    homeScene: HomeTown
+    heistScene: HeistCity
     heistReachPrice: 400
     heistGainPrice: 700
     maxPrice: 80
     maxCap: 200
+    period: 90
+  - levelID: 2
+    homeScene: HomeTown
+    heistScene: HeistCity
+    heistReachPrice: 2000
+    heistGainPrice: 5000
+    maxPrice: 150
+    maxCap: 375
+    period: 90
+  - levelID: 3
+    homeScene: HomeTown
+    heistScene: HeistCity
+    heistReachPrice: 15000
+    heistGainPrice: 40000
+    maxPrice: 1000
+    maxCap: 2500
+    period: 90
+  - levelID: 4
+    homeScene: HomeTown
+    heistScene: HeistCity
+    heistReachPrice: 45000
+    heistGainPrice: 70000
+    maxPrice: 3000
+    maxCap: 7500
     period: 90

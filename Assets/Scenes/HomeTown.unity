@@ -427,11 +427,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2151751678059276048, guid: fd4291012bf75470cb18b707b134a5c5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -189.8
+      value: -246.7
       objectReference: {fileID: 0}
     - target: {fileID: 2151751678059276048, guid: fd4291012bf75470cb18b707b134a5c5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 266.5
+      value: 291.5
       objectReference: {fileID: 0}
     - target: {fileID: 2151751678059276048, guid: fd4291012bf75470cb18b707b134a5c5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -457,11 +457,20 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 771dddcb3ca97455eb5997a6231afc7c, type: 3}
+    - target: {fileID: 7998059629689995123, guid: fd4291012bf75470cb18b707b134a5c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd4291012bf75470cb18b707b134a5c5, type: 3}
 --- !u!224 &402400291 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2151751678059276048, guid: fd4291012bf75470cb18b707b134a5c5, type: 3}
+  m_PrefabInstance: {fileID: 402400290}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &402400292 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2151751678059276049, guid: fd4291012bf75470cb18b707b134a5c5, type: 3}
   m_PrefabInstance: {fileID: 402400290}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &413257245
@@ -477,7 +486,6 @@ GameObject:
   - component: {fileID: 413257247}
   - component: {fileID: 413257250}
   - component: {fileID: 413257249}
-  - component: {fileID: 413257251}
   m_Layer: 5
   m_Name: MoneyTotal
   m_TagString: Untagged
@@ -545,54 +553,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 413257245}
   m_CullTransparentMesh: 1
---- !u!61 &413257249
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 413257245}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -250, y: -50}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 500, y: 100}
-  m_EdgeRadius: 0
---- !u!50 &413257250
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 413257245}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &413257251
+--- !u!114 &413257249
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -601,24 +562,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 413257245}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9320fddd6906487fac76188ea2a28ed, type: 3}
+  m_Script: {fileID: 11500000, guid: e40733c5b38364e4c8c1c7692e9b2fc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onCashCollect:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 827602657}
-        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  GameEventListeners:
+  - Event: {fileID: 11400000, guid: 4ab63f65bda4f42e3974296d200ac386, type: 2}
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 413257250}
+          m_TargetAssemblyTypeName: ValueDisplay, Assembly-CSharp
+          m_MethodName: UpdateValue
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &413257250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413257245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa699459c71eb4ec2af7df68c271106b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Value: 0
+  displayArea: {fileID: 827602657}
 --- !u!1 &618778549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1109,8 +1086,6 @@ GameObject:
   - component: {fileID: 973755988}
   - component: {fileID: 973755987}
   - component: {fileID: 973755986}
-  - component: {fileID: 973755990}
-  - component: {fileID: 973755991}
   m_Layer: 5
   m_Name: City
   m_TagString: Untagged
@@ -1203,48 +1178,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &973755990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 973755985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df349c0e89ddd476dac8115e5faea96e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: {fileID: 11400000, guid: 137e2e3dac5e4485995ce0e41de3a5ea, type: 2}
-  Response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 973755991}
-        m_TargetAssemblyTypeName: HeistManager, Assembly-CSharp
-        m_MethodName: Unlock
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &973755991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 973755985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ca65bdd0fc80447880513639dcca8cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  theftLockers: 5
-  heistCompleted: {fileID: 158073740}
 --- !u!1 &995242473
 GameObject:
   m_ObjectHideFlags: 0
@@ -1874,57 +1807,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &846474820473359626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6131179834934200895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 473e058220931472c9103a5567b6db94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onButtonClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7204892262864004002}
-        m_TargetAssemblyTypeName: CollectLock, Assembly-CSharp
-        m_MethodName: Collect
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 620848351590835740}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 3692817898065811857}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
-        m_MethodName: set_overrideSprite
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 21300000, guid: 0da2f20b6d28b4f82bb4274af8423c40, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1001 &2151751679333759089
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2092,7 +1974,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -349, y: -230}
+  m_AnchoredPosition: {x: -244.2, y: -128.2}
   m_SizeDelta: {x: 229.8, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2752840153969463901
@@ -2128,7 +2010,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2752840153969463901}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -2194,7 +2076,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3692817898065811857}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8217098351292882119}
+        m_TargetAssemblyTypeName: CashConsumer, Assembly-CSharp
+        m_MethodName: ConsumeCash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &3197610655496201101
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2278,9 +2172,8 @@ GameObject:
   - component: {fileID: 8217098351292882118}
   - component: {fileID: 3692817898065811857}
   - component: {fileID: 2887891470112309301}
-  - component: {fileID: 846474820473359626}
   - component: {fileID: 3613105929662169367}
-  - component: {fileID: 7204892262864004002}
+  - component: {fileID: 8217098351292882119}
   m_Layer: 5
   m_Name: Lock
   m_TagString: Untagged
@@ -2288,34 +2181,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &7204892262864004002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6131179834934200895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da2861526225d48c2abadd877f71d314, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cashPrefab: {fileID: 701593225022813939, guid: 49781e19ae52e466b898e45438fee189, type: 3}
-  onCashCollected:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 137e2e3dac5e4485995ce0e41de3a5ea, type: 2}
-        m_TargetAssemblyTypeName: GameEvent, Assembly-CSharp
-        m_MethodName: Raise
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!222 &8217098351292882118
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2324,3 +2189,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6131179834934200895}
   m_CullTransparentMesh: 1
+--- !u!114 &8217098351292882119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6131179834934200895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c42e616081f094fb198de283ced1489a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  price: 10000
+  onCashConsumed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 402400292}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 2752840153969463901}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

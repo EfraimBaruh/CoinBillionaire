@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using ScriptableObjects;
 using UnityEngine;
@@ -23,6 +24,7 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private Transform _walletArea;
     private float _walletEntrancePosY;
     private MenuCoin _menuCoin;
+    private bool _inAction;
     #endregion
 
     #region Events
@@ -50,6 +52,19 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private void OnDisable()
     {
         CoinSpawner.instance.onCoinDespawn -= DisableInteraction;
+    }
+
+    private void FixedUpdate()
+    {
+        if (_inAction)
+        {
+            if (_rigidbody2D.velocity.magnitude == 0)
+            {
+                ControlParent();
+                ControlAction();
+                _inAction = false;
+            }
+        }
     }
 
     public void OnBeginDrag(PointerEventData data)
@@ -114,8 +129,7 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         {
             gameObject.layer = dragAndReleaseLayers.onDragLayer;
             _rigidbody2D.velocity = Vector2.up * 50;
-            ControlParent();
-            ControlAction(); 
+            _inAction = true;
             SendBacktoMarket();
         }
         else if(_rigidbody2D.velocity.magnitude > 0)

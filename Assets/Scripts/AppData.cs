@@ -16,10 +16,25 @@ public class AppData
     
     private static bool _vibration;
 
+    private static LevelInfo _levelInfo;
+
+    public static LevelInfo GameLevelInfo => _levelInfo;
     public static int GameLevel
     {
         get { return _gameLevel; }
-        set { _gameLevel = value; }
+        set
+        {
+            _gameLevel = value;
+            
+            foreach (var levelInfo in GameManager.instance.gameLevels.levelInfos)
+            {
+                if (levelInfo.levelID == _gameLevel)
+                {
+                    _levelInfo = levelInfo;
+                    break;
+                }
+            }
+        }
     }
     public static float TotalValue
     {

@@ -37,6 +37,8 @@ public class CoinSpawner : MonoBehaviour
     private Queue<Coin> _spawn = new();
     private Queue<Coin> _deSpawn = new();
 
+    private int _spawnCounter = 1;
+
 
     private void Awake()
     {
@@ -58,15 +60,16 @@ public class CoinSpawner : MonoBehaviour
             var currentCoinCount = _deSpawn.Count + coinsInUse.Count;
 
             if (currentCoinCount < coinSize)
-                SpawnCoin();
+                SpawnCoin(AppData.GameLevelInfo.maxPrice);
+
             if (currentCoinCount >= coinSize)
-                DespawnCoin();
+                break;//DespawnCoin();
 
             yield return new WaitForSeconds(spawnTime);
         }
     }
 
-    private void SpawnCoin()
+    private void SpawnCoin(int maxPrice)
     {
         // TODO: Spawn will be edited.
         Coin spawnCoin = _spawn.Dequeue();
@@ -77,9 +80,17 @@ public class CoinSpawner : MonoBehaviour
         MenuCoin menuC = coin.GetComponent<MenuCoin>();
         menuC.Coin = spawnCoin;
         menuC.UpdateSpeed = Random.Range(10, 30);
-        menuC.Initialize();
+        
+        float magnitude = _spawnCounter % 5;
+        if (magnitude > 1 && magnitude <= 3)
+            magnitude = 0.6f;
+        else if (magnitude < 1 || magnitude > 3)
+            magnitude = 0.5f;
+
+        menuC.Initialize(maxPrice * magnitude, 0.07f / magnitude);
 
         onCoinSpawn.Invoke(menuC.Coin);
+        _spawnCounter++;
 
     }
 

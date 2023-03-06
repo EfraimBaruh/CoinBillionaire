@@ -1,3 +1,4 @@
+using System;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
         AppData.USD = appConfig.USD;
         PlayerPrefs.SetInt("IsInitialized", 1);
         WriteData();
+        gameLevels = GameLevelsScriptable.Instance;
     }
     private void RetrieveData()
     {
@@ -45,6 +47,13 @@ public class GameManager : MonoBehaviour
             RetrieveData();
         else
             InitializeData();
+        
+        
+    }
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
     }
 
     private void OnDisable()

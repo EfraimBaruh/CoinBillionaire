@@ -20,6 +20,24 @@ public class MenuCoin : MonoBehaviour
 
     [SerializeField] private float minSize, maxSize;
 
+    #region Coin Update Formula
+
+    private float _magnitude;
+
+    private float _periodicity;
+
+    private float _initialTime;
+    
+    #endregion
+
+    #region Coin Update Variables
+    
+    private float _sizeScaler;
+
+    private bool _onDestroyAction;
+
+    #endregion
+
     [Header("Coin Defaults")]
     public float UpdateCoinTime;
 
@@ -80,22 +98,19 @@ public class MenuCoin : MonoBehaviour
 
     }
 
-    public void Initialize()
+    public void Initialize(float magnitude, float periodicity)
     {
+        UpdateCoinPreset(magnitude, periodicity);
+        
+        _sizeScaler = GetSizeMapped();
+
+        _onDestroyAction = false;
+        
         _coin.stagePrice = _coin.price;
         _coin.previousPrice = _coin.price;
         icon.sprite = _coin.icon;
         
-        StartCoroutine(UpdateCoinState());
         StartCoroutine(UpdateCoin());
-    }
-
-    private void FixedUpdate()
-    {
-        /*//TODO: Increase force @ the edges.
-        var transform1 = transform;
-        Vector3 direction = (transform1.parent.position - transform1.position).normalized;
-        _rigidbody2D.AddForce(direction, ForceMode2D.Impulse);*/
     }
 
     private void OnDisable()
@@ -128,30 +143,23 @@ public class MenuCoin : MonoBehaviour
     #endregion
     #region UpdateCoinState
 
-    private IEnumerator UpdateCoinState()
+    public void UpdateCoinPreset(float magnitude, float periodicity)
     {
-        while (true)
-        {
-            ChangeRatio ratio = Utils.GetCoinChangeRatio();
+        _magnitude = magnitude;
+        _periodicity = periodicity;
+        _initialTime = Time.time;
 
-            _ratio = (int)ratio * Random.Range(-0.2f, 0.2f);
-            UpdateState();
-            UpdateSprite();
-            
-            yield return new WaitForSecondsRealtime(UpdateStateTime);
-        }
     }
 
-    private void UpdateCoinState(int ratio)
+    private void UpdateCoinSt()
     {
-        _ratio = ratio * Random.Range(0.01f, 0.2f);
-        UpdateState();
-        UpdateSprite();
+        float ratio = Utils.GetRatio(_magnitude);
+        UpdateCoinPreset(ratio * AppData.GameLevelInfo.maxPrice, 0.07f / ratio);
     }
     
     private void UpdateState()
     {
-        _coinState = _ratio >= 0 ? (MenuCoinState)1 : 0;
+        _coinState = _coin.price >= _coin.previousPrice ? (MenuCoinState)1 : 0;
     }
 
     private void UpdateSprite()
@@ -167,10 +175,15 @@ public class MenuCoin : MonoBehaviour
     {
         while (true)
         {
+            if(_onDestroyAction)
+                break;
+            
             UpdatePrice();
             UpdatePercentage(); 
             UpdateCoinSize();
             UpdateCoinMass();
+            UpdateState();
+            UpdateSprite();
             _onCoinUpdate?.Invoke();
             Wallet.UpdateWallet.Invoke();
 
@@ -182,7 +195,8 @@ public class MenuCoin : MonoBehaviour
     {
         _coin.previousPrice = _coin.price;
 
-        _coin.price = _coin.previousPrice + _ratio;
+        float coinTime = Time.time - _initialTime;
+        _coin.price = Mathf.Abs(_magnitude * Mathf.Sin(_periodicity * coinTime));
 
         ControlPrice();
     }
@@ -199,7 +213,7 @@ public class MenuCoin : MonoBehaviour
 
     private void UpdateCoinSize()
     {
-        float size = 0.4347f * Mathf.Log(_coin.price) + 1.34f;
+        float size = _coin.price * _sizeScaler;
 
         size = Mathf.Round(size * 100) / 100f;
 
@@ -240,8 +254,7 @@ public class MenuCoin : MonoBehaviour
         {
             _coin.price = 0.2f;
             _coin.previousPrice = _coin.price;
-            ChangeRatio ratio = Utils.GetCoinChangeRatio();
-            UpdateCoinState((int)ratio);
+            UpdateCoinSt();
         }
     }
     
@@ -251,6 +264,7 @@ public class MenuCoin : MonoBehaviour
     {
         if (coin == _coin)
         {
+            _onDestroyAction = true;
             // No last minute buy.
             coinButton.interactable = false;
             
@@ -266,6 +280,11 @@ public class MenuCoin : MonoBehaviour
                     Destroy(gameObject);
                 });
         }
+    }
+
+    private float GetSizeMapped()
+    {
+        return 3 / (float)AppData.GameLevelInfo.maxPrice;
     }
     
 }
