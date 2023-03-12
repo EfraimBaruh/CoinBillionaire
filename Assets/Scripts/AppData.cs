@@ -72,6 +72,13 @@ public class AppData
         _uSD = value;
         UpdatePlayerPrefs("USD", value);
     }
+
+    public static void SetGameLevel(int value)
+    {
+        _gameLevel = value;
+        UpdatePlayerPrefs("GameLevel", value);
+
+    }
     public static void SetMusicLevel(float value)
     {
         _musicLevel = value;
@@ -91,6 +98,11 @@ public class AppData
     public static void UpdatePlayerPrefs(string key, float value)
     {
         PlayerPrefs.SetFloat(key, value);
+    }
+    
+    public static void UpdatePlayerPrefs(string key, int value)
+    {
+        PlayerPrefs.SetInt(key, value);
     }
 
 }

@@ -20,7 +20,7 @@ public class ValueDisplay : MonoBehaviour
                 displayArea.text = AppData.USD.ToString("F0");
                 break;
             case DisplayValue.total:
-                displayArea.text = AppData.TotalValue.ToString("F0");
+                displayArea.text = Utils.CurrencyToString(AppData.TotalValue);
                 break;
         }
     }

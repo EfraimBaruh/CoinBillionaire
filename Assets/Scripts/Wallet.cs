@@ -6,8 +6,6 @@ using UnityEngine;
 public class Wallet : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI totalValue;
-    [SerializeField] private TextMeshProUGUI percentage;
-    [SerializeField] private TextMeshProUGUI cashAble;
     public Dictionary<Coin, int> walletCoins = new Dictionary<Coin, int>();
 
     public static Wallet Singleton;
@@ -20,27 +18,18 @@ public class Wallet : MonoBehaviour
 
     private static float USD = 100f;
 
-    private void Awake()
-    {
-        Singleton = this;
-        
-    }
+    private void Awake() => Singleton = this;
 
     private void CalculateTotalAssetValue()
     {
         float total = 0f;
 
         foreach (var coinAsset in walletCoins)
-        {
             total += coinAsset.Value * coinAsset.Key.price;
-        }
         
-        totalValue.text = total.ToString("F1");
-
-        cashAble.text = USD.ToString("F1");
-
+        
         TotalValue = USD + total;
-
+        SetTotalValueText();
         AppData.SetTotalValue(TotalValue);
         AppData.SetUSD(USD);
     }
@@ -72,6 +61,11 @@ public class Wallet : MonoBehaviour
             onStackExchange.Invoke();
             Debug.LogError($"Buy Coin {coin.id} completed.");
         }
+    }
+
+    private void SetTotalValueText()
+    {
+        totalValue.text = Utils.CurrencyToString(TotalValue);
     }
 
     private void OnEnable()

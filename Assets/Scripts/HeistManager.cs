@@ -23,7 +23,7 @@ public class HeistManager : MonoBehaviour
         {
             heistCompleted.SetActive(true);
 
-            AppData.GameLevel++;
+            AppData.SetGameLevel(++AppData.GameLevel);
         }
     }
 }

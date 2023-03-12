@@ -69,6 +69,36 @@ public static class Utils
         return ratio;
     }
 
+    public static string CurrencyToString(float money)
+    {
+        List<CurrencyShort> currencyShorts = GameManager.instance.appConfig.currencyShorts;
+        int digitCount = NumberOfDigits((int)money);
+        
+        int wholeNumCount = digitCount % 3;
+        wholeNumCount = wholeNumCount == 0 ? 3 : wholeNumCount;
+        float newNumber = money / Mathf.Pow(10, digitCount - wholeNumCount);
+        string fraction = "F" + (4 - wholeNumCount);
+        for (int i = 0; i < currencyShorts.Count; i++)
+        {
+            if (digitCount == currencyShorts[i].digitCount)
+            {
+                return Currency +"  "+ newNumber.ToString(fraction) + currencyShorts[i].shortChar;
+            }
+        }
+        return Currency +"  "+ money;
+    }
+    
+    private static int NumberOfDigits(int number)
+    {
+        int count = 0;
+        while (number > 0)
+        {
+            number /= 10;
+            count++;
+        }
+        return count;
+    }
+
 
 }
 

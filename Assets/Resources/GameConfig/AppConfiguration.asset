@@ -15,3 +15,22 @@ MonoBehaviour:
   IsInitialized: 0
   TotalValue: 100
   USD: 100
+  currencyShorts:
+  - digitCount: 4
+    shortChar: K
+  - digitCount: 5
+    shortChar: K
+  - digitCount: 6
+    shortChar: K
+  - digitCount: 7
+    shortChar: M
+  - digitCount: 8
+    shortChar: M
+  - digitCount: 9
+    shortChar: M
+  - digitCount: 10
+    shortChar: B
+  - digitCount: 11
+    shortChar: B
+  - digitCount: 12
+    shortChar: B

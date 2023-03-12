@@ -7,13 +7,14 @@ public class CashCollecter : MonoBehaviour
 
     private void OnEnable()
     {
-        onCashCollect.Invoke(AppData.USD.ToString("F0"));
+        onCashCollect.Invoke(Utils.CurrencyToString(AppData.TotalValue));
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
         CashItem item = col.GetComponent<CashItem>();
-        AppData.USD += item.cashAble._stock;
-        onCashCollect.Invoke(AppData.USD.ToString("F0"));
+        AppData.TotalValue += item.cashAble._stock;
+        AppData.SetTotalValue(AppData.TotalValue);
+        onCashCollect.Invoke(Utils.CurrencyToString(AppData.TotalValue));
     }
 }

@@ -19,7 +19,7 @@ public class HeistBarHandler : MonoBehaviour
     private void Start()
     {
         InitiateBar();
-        SetBarValue(AppData.TotalValue);
+        SetBarValue();
 
         ControlHeistStatus();
     }
@@ -39,7 +39,7 @@ public class HeistBarHandler : MonoBehaviour
 
     private void UpdateHeistBar()
     {
-        SetBarValue(AppData.TotalValue);
+        SetBarValue();
         ControlHeistStatus();
     }
 
@@ -67,7 +67,7 @@ public class HeistBarHandler : MonoBehaviour
         return (int)Mathf.Ceil(currentMaxAmount * nextMaxLevelMultiplier);
     }
 
-    private void SetBarValue(float value)
+    private void SetBarValue()
     {
         slider.value = AppData.TotalValue;
     }
