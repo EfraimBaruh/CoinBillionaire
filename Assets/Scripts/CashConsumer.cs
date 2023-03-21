@@ -8,10 +8,10 @@ public class CashConsumer : MonoBehaviour
 
     public void ConsumeCash()
     {
-        if (AppData.USD >= price)
+        if (AppData.TotalValue >= price)
         {
-            AppData.USD -= price;
-            onCashConsumed.Invoke(AppData.USD.ToString("F0"));
+            AppData.TotalValue -= price;
+            onCashConsumed.Invoke(AppData.TotalValue.ToString("F0"));
         }
 
     }
