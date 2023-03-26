@@ -41,19 +41,20 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        instance = this;
-
         if(PlayerPrefs.HasKey("IsInitialized"))
             RetrieveData();
         else
             InitializeData();
         
-        
     }
 
     private void Awake()
     {
-        DontDestroyOnLoad(this);
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+
+
     }
 
     private void OnDisable()
