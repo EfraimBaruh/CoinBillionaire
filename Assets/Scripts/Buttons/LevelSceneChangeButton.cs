@@ -14,7 +14,7 @@ namespace Buttons
 
             int currentLevel = AppData.GameLevel;
             
-            foreach (var levelInfo in GameManager.instance.gameLevels.levelInfos)
+            foreach (var levelInfo in GameManager.Instance.gameLevels.levelInfos)
             {
                 if (levelInfo.levelID == currentLevel)
                 {

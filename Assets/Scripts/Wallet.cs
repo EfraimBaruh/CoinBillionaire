@@ -70,10 +70,11 @@ public class Wallet : MonoBehaviour
 
     private void OnEnable()
     {
-        UpdateWallet += CalculateTotalAssetValue;
-
         TotalValue = AppData.TotalValue;
+        AppData.USD = TotalValue;
         USD = AppData.USD;
+        
+        UpdateWallet += CalculateTotalAssetValue;
     }
     
     private void OnDisable()

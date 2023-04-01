@@ -6,7 +6,8 @@ namespace ScriptableObjects
     [CreateAssetMenu]
     public class GameLevelsScriptable : ScriptableObject
     {
-        private static GameLevelsScriptable _instance
+        private static GameLevelsScriptable _instance;
+        public static GameLevelsScriptable Instance
         {
             get
             {
@@ -24,7 +25,7 @@ namespace ScriptableObjects
                 _instance = value;
             }
         }
-        public static GameLevelsScriptable Instance => _instance;
+
         public List<LevelInfo> levelInfos;
     }
 }

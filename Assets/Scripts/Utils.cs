@@ -71,7 +71,7 @@ public static class Utils
 
     public static string CurrencyToString(float money)
     {
-        List<CurrencyShort> currencyShorts = GameManager.instance.appConfig.currencyShorts;
+        List<CurrencyShort> currencyShorts = GameManager.Instance.appConfig.currencyShorts;
         int digitCount = NumberOfDigits((int)money);
         
         int wholeNumCount = digitCount % 3;
@@ -85,7 +85,7 @@ public static class Utils
                 return Currency +"  "+ newNumber.ToString(fraction) + currencyShorts[i].shortChar;
             }
         }
-        return Currency +"  "+ money;
+        return Currency +"  "+ money.ToString("F0");
     }
     
     private static int NumberOfDigits(int number)

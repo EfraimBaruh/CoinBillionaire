@@ -26,7 +26,7 @@ public class AppData
         {
             _gameLevel = value;
             
-            foreach (var levelInfo in GameManager.instance.gameLevels.levelInfos)
+            foreach (var levelInfo in GameManager.Instance.gameLevels.levelInfos)
             {
                 if (levelInfo.levelID == _gameLevel)
                 {

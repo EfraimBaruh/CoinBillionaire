@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    private static GameManager _instance;
+
+    public static GameManager Instance => _instance;
 
     public AppConfig appConfig;
 
@@ -50,11 +52,9 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-
-        instance = this;
+        _instance = this;
         DontDestroyOnLoad(gameObject);
-
-
+        
     }
 
     private void OnDisable()
