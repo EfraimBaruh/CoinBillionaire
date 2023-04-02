@@ -12,6 +12,8 @@ public class CameraMovement : MonoBehaviour
 
     private Rigidbody _rigidbody;
 
+    private Vector3 previousPosition;
+
     private void Start()
     {
         SetMinMax();
@@ -22,15 +24,25 @@ public class CameraMovement : MonoBehaviour
     {
         float vertical = Input.GetAxis("Vertical");
         float horizontal = Input.GetAxis("Horizontal");
-
-        Vector2 direction = new Vector2(horizontal, vertical);
         
-        _rigidbody.AddForce(direction / speed);
-        /*transform.position += (Vector3)direction / 10;*/
+
     }
 
     private void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+            previousPosition = Input.mousePosition;
+        if (Input.GetMouseButton(0))
+        {
+            Vector3 delta = Input.mousePosition - previousPosition;
+            Vector2 direction = new Vector2(delta.x, delta.y);
+
+            _rigidbody.AddForce(-direction * speed);
+            /*transform.position += (Vector3)direction / 10;*/
+
+            previousPosition = Input.mousePosition;
+        }
+
         Vector3 position = transform.position;
         transform.position = new Vector3(Mathf.Clamp(position.x, min.x, max.x),
             Mathf.Clamp(position.y, min.y, max.y), position.z);

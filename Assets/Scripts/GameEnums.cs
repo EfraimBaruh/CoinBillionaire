@@ -11,4 +11,11 @@ namespace GameEnums
         HeistCity = 2,
         Town = 3
     }
+
+    public enum SettingType
+    {
+        music,
+        vibration,
+        sound
+    }
 }
