@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: AppConfiguration
   m_EditorClassIdentifier: 
   IsInitialized: 0
-  TotalValue: 100
-  USD: 100
+  TotalValue: 1000000
+  USD: 1000000
   currencyShorts:
   - digitCount: 4
     shortChar: K
