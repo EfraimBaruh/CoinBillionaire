@@ -1,4 +1,3 @@
-using System;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -29,6 +28,7 @@ public class GameManager : MonoBehaviour
         AppData.Vibration = bool.Parse(PlayerPrefs.GetString("vibration"));
         AppData.MusicLevel = PlayerPrefs.GetFloat("musicLevel");
         AppData.SoundLevel = PlayerPrefs.GetFloat("soundLevel");
+        AppData.LoadUnlockedCoins();
     }
     
     private void WriteData()

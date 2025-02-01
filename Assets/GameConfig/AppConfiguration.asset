@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4132635b3b09742c89e0d5d160aa179e, type: 3}
+  m_Name: AppConfiguration
+  m_EditorClassIdentifier: 
+  IsInitialized: 0
+  TotalValue: 500
+  USD: 500
+  currencyShorts:
+  - digitCount: 4
+    shortChar: K
+  - digitCount: 5
+    shortChar: K
+  - digitCount: 6
+    shortChar: K
+  - digitCount: 7
+    shortChar: M
+  - digitCount: 8
+    shortChar: M
+  - digitCount: 9
+    shortChar: M
+  - digitCount: 10
+    shortChar: B
+  - digitCount: 11
+    shortChar: B
+  - digitCount: 12
+    shortChar: B

@@ -1,0 +1,18 @@
+{
+    "name": "ProceduralImage.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6999ab6403bd90849b79afca7a4c6de2"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ScriptableObjects;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,6 +11,7 @@ public class CoinSpawner : MonoBehaviour
     [SerializeField] private float spawnTime = 5f;
     [SerializeField] private GameObject menuCoin;
     [SerializeField] private CoinList coinList;
+    [SerializeField] private CloudyMessagesScriptable cloudyMessages;
     [Header("Spawn Settings")]
     [SerializeField] private RectTransform spawnArea;
     [SerializeField] private RectTransform walletArea;
@@ -71,7 +73,6 @@ public class CoinSpawner : MonoBehaviour
 
     private void SpawnCoin(int maxPrice)
     {
-        // TODO: Spawn will be edited.
         Coin spawnCoin = _spawn.Dequeue();
         GameObject coin = Instantiate(menuCoin, spawnArea);
 
@@ -87,11 +88,11 @@ public class CoinSpawner : MonoBehaviour
         else if (magnitude < 1 || magnitude > 3)
             magnitude = 0.5f;
 
-        menuC.Initialize(maxPrice * magnitude, 0.07f / magnitude);
+        string randomMessage = cloudyMessages.Messages[Random.Range(0, cloudyMessages.Messages.Count)];
+        menuC.Initialize(maxPrice * magnitude, 0.07f / magnitude, randomMessage);
 
         onCoinSpawn.Invoke(menuC.Coin);
         _spawnCounter++;
-
     }
 
     // TODO: coin dispose system for: keep coins in the portfolio if you have them in wallet, else wait for its time.

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using DG.Tweening;
 using TMPro;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -19,6 +20,8 @@ public class MenuCoin : MonoBehaviour
     [SerializeField] private Sprite background_green, background_red;
 
     [SerializeField] private float minSize, maxSize;
+
+    [SerializeField] private CloudyMessageController cloudyMessageController;
 
     #region Coin Update Formula
 
@@ -98,7 +101,7 @@ public class MenuCoin : MonoBehaviour
 
     }
 
-    public void Initialize(float magnitude, float periodicity)
+    public void Initialize(float magnitude, float periodicity, string message)
     {
         UpdateCoinPreset(magnitude, periodicity);
         
@@ -109,6 +112,12 @@ public class MenuCoin : MonoBehaviour
         _coin.stagePrice = _coin.price;
         _coin.previousPrice = _coin.price;
         icon.sprite = _coin.icon;
+        
+        // Calculate booster effect based on magnitude or another factor
+        float boosterEffect = magnitude / AppData.GameLevelInfo.maxPrice;
+        cloudyMessageController.InitializeCloudyMessage(message, boosterEffect);
+        
+        Debug.Log("Coin:" + _coin.id);
         
         StartCoroutine(UpdateCoin());
     }
@@ -175,8 +184,12 @@ public class MenuCoin : MonoBehaviour
     {
         while (true)
         {
-            if(_onDestroyAction)
-                break;
+            if (_onDestroyAction)
+            {
+               Debug.LogError($"{_coin.id} destroy action called");
+               break;
+            }
+                
             
             UpdatePrice();
             UpdatePercentage(); 
@@ -189,6 +202,7 @@ public class MenuCoin : MonoBehaviour
 
             yield return new WaitForSecondsRealtime(UpdateCoinTime);
         }
+        
     }
 
     private void UpdatePrice()

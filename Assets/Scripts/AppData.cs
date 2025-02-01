@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AppData
@@ -17,6 +18,8 @@ public class AppData
     private static bool _vibration;
 
     private static LevelInfo _levelInfo;
+
+    private static int _maxAvailableCoinId;
 
     public static LevelInfo GameLevelInfo => _levelInfo;
     public static int GameLevel
@@ -38,7 +41,10 @@ public class AppData
     }
     public static float TotalValue
     {
-        get { return _totalValue; }
+        get
+        {
+            return _totalValue;
+        }
         set { _totalValue = value; }
     }
     public static float USD
@@ -61,6 +67,13 @@ public class AppData
         get { return _vibration; }
         set { _vibration = value; }
     }
+    
+    private const string UnlockedCoinsKey = "UnlockedCoins";
+    
+    private static List<int> unlockedCoins = new List<int>();
+
+    public static readonly List<int> UnlockedCoins = unlockedCoins;
+
 
     public static void SetTotalValue(float value)
     {
@@ -103,6 +116,33 @@ public class AppData
     public static void UpdatePlayerPrefs(string key, int value)
     {
         PlayerPrefs.SetInt(key, value);
+    }
+    
+    // Save the unlocked coins list to PlayerPrefs
+    public static void SaveUnlockedCoins()
+    {
+        string serializedCoins = string.Join(",", unlockedCoins);
+        PlayerPrefs.SetString(UnlockedCoinsKey, serializedCoins);
+        PlayerPrefs.Save();
+    }
+
+    // Load the unlocked coins list from PlayerPrefs
+    public static void LoadUnlockedCoins()
+    {
+        if (PlayerPrefs.HasKey(UnlockedCoinsKey))
+        {
+            string serializedCoins = PlayerPrefs.GetString(UnlockedCoinsKey);
+            string[] coinIds = serializedCoins.Split(',');
+
+            unlockedCoins.Clear();
+            foreach (string coinId in coinIds)
+            {
+                if (int.TryParse(coinId, out int id))
+                {
+                    unlockedCoins.Add(id);
+                }
+            }
+        }
     }
 
 }

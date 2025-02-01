@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd9577ab576a64a0f96c11d658726184, type: 3}
+  m_Name: BubbleTexts
+  m_EditorClassIdentifier: 
+  messages:
+  - President's Endorsement!
+  - Billionaire's Investment!
+  - Tech Giant Partnership!
+  - Wall Street Backing!
+  - Celebrity Endorsement!
+  - Major Exchange Listing!
+  - Institutional Adoption!
+  - Viral Trading Trend!
+  - Fortune 500 Integration!
+  - Global Bank Support!
+  - Hedge Fund Investment!
+  - Social Media Frenzy!
+  - Innovation Award!
+  - Market Breakthrough!
+  - Strategic Merger!
+  - Crypto Influencer Boost!
+  - Revolutionary Update!
+  - Government Approval!
+  - Industry Recognition!
+  - Venture Capital Funding!
+  - Trading Volume Spike!
+  - Corporate Adoption!
+  - Market Leadership!
+  - International Partnership!
+  - Security Upgrade!
+  - Mainstream Adoption!
+  - Expert Recommendation!
+  - Trading Bot Integration!
+  - Blockchain Innovation!
+  - Community Growth!
+  - Development Milestone!
+  - Market Expansion!
+  - Strategic Alliance!
+  - Trading Platform Launch!
+  - Regulatory Compliance!
+  - Investment Fund Entry!
+  - Technical Breakthrough!
+  - Global Recognition!
+  - Mass Media Coverage!
+  - Market Dominance!

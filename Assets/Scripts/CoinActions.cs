@@ -95,7 +95,7 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             }).OnComplete(() =>
             {
                 // Set layer to release state at the end of drag.
-                gameObject.layer = dragAndReleaseLayers.onReleaseLayer;
+                gameObject.layer = dragAndReleaseLayers.onDragFreeLayer;
                 ControlAction();
             });
 

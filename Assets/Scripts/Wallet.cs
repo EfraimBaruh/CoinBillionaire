@@ -27,7 +27,6 @@ public class Wallet : MonoBehaviour
         foreach (var coinAsset in walletCoins)
             total += coinAsset.Value * coinAsset.Key.price;
         
-        
         TotalValue = USD + total;
         SetTotalValueText();
         AppData.SetTotalValue(TotalValue);
@@ -63,6 +62,19 @@ public class Wallet : MonoBehaviour
         }
     }
 
+    public bool Buy(int price)
+    {
+        // check whether you can buy
+        if (USD > price)
+        {
+            USD -= price;
+            UpdateWallet.Invoke();
+            return true;
+        }
+
+        return false;
+    }
+
     private void SetTotalValueText()
     {
         totalValue.text = Utils.CurrencyToString(TotalValue);
@@ -71,7 +83,9 @@ public class Wallet : MonoBehaviour
     private void OnEnable()
     {
         TotalValue = AppData.TotalValue;
+        
         AppData.USD = TotalValue;
+
         USD = AppData.USD;
         
         UpdateWallet += CalculateTotalAssetValue;
