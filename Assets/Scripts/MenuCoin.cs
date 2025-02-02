@@ -216,6 +216,7 @@ public class MenuCoin : MonoBehaviour
         _coin.previousPrice = _coin.price;
 
         float coinTime = Time.time - _initialTime;
+        if(coinTime > 0.5) coinTime /= 2;
         _coin.price = Mathf.Abs(_magnitude * Mathf.Sin(_periodicity * coinTime));
 
         ControlPrice();

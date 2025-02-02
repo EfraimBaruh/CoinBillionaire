@@ -60,6 +60,8 @@ public class CoinSpawner : MonoBehaviour
         while (true)
         {
             var currentCoinCount = _deSpawn.Count + coinsInUse.Count;
+            
+            Debug.LogError(AppData.GameLevelInfo.maxPrice);
 
             if (currentCoinCount < coinSize)
                 SpawnCoin(AppData.GameLevelInfo.maxPrice);
@@ -80,7 +82,7 @@ public class CoinSpawner : MonoBehaviour
 
         MenuCoin menuC = coin.GetComponent<MenuCoin>();
         menuC.Coin = spawnCoin;
-        menuC.UpdateSpeed = Random.Range(10, 30);
+        menuC.UpdateSpeed = Random.Range(2, 6);
         
         float magnitude = _spawnCounter % 5;
         if (magnitude > 1 && magnitude <= 3)

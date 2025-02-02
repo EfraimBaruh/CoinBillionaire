@@ -32,6 +32,7 @@ public class User : MonoBehaviour
     
     public UnityEvent<string> totalMoneyUpdated;
     public UnityEvent<string> cashUpdated;
+    public UnityEvent assetsUpdated;
     
     private void Awake()
     {
@@ -44,6 +45,9 @@ public class User : MonoBehaviour
         _instance = this;
         DontDestroyOnLoad(gameObject);
         
+        if (assetsUpdated == null)
+            assetsUpdated = new UnityEvent();
+            
         LoadUserData();
         StartFollowerGeneration();
     }
@@ -114,9 +118,12 @@ public class User : MonoBehaviour
     {
         if (userData.Cash >= asset.price && !userData.ownedAssetIds.Contains(asset.assetId))
         {
-            userData.Cash -= asset.price;
+            UpdateCash(-asset.price);
+            UpdateMoney(-asset.price);
+            UpdateFollowerCount(asset.followerBonus);
             userData.ownedAssetIds.Add(asset.assetId);
             SaveUserData();
+            assetsUpdated?.Invoke();
             return true;
         }
         return false;
@@ -126,9 +133,12 @@ public class User : MonoBehaviour
     {
         if (userData.ownedAssetIds.Contains(asset.assetId))
         {
-            userData.Cash += asset.SellPrice;
+            UpdateCash(asset.SellPrice);
+            UpdateMoney(asset.SellPrice);
+            UpdateFollowerCount(-asset.SellBonus);
             userData.ownedAssetIds.Remove(asset.assetId);
             SaveUserData();
+            assetsUpdated?.Invoke();
             return true;
         }
         return false;
@@ -159,8 +169,12 @@ public class User : MonoBehaviour
         var display2 = Utils.CurrencyToString(userData.Cash);
         cashUpdated?.Invoke(display2);
     }
-    
-    
+
+    private void UpdateFollowerCount(float change)
+    {
+        userData.followerCount += change;
+        SaveUserData();
+    }
 
     // Getters for UI
     public float GetTotalMoney() => userData.TotalMoney;

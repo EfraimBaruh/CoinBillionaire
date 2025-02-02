@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be233ee3400274cd091b660c20e149d4, type: 3}
-  m_Name: ElectricCar
+  m_Name: BeachBungalow
   m_EditorClassIdentifier: 
-  assetId: 5
-  assetName: Electric Car
-  price: 100000
-  icon: {fileID: 21300000, guid: b1e57f42e6e074fa286e1508ed1d93db, type: 3}
-  followerPerHour: 700
-  followerBonus: 2000
+  assetId: 8
+  assetName: Beach Bungalow
+  price: 600000
+  icon: {fileID: 21300000, guid: e545941807b0c4b8b97be385c0a2b3d8, type: 3}
+  followerPerHour: 5000
+  followerBonus: 15000

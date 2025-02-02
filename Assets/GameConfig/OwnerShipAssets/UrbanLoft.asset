@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be233ee3400274cd091b660c20e149d4, type: 3}
-  m_Name: ElectricCar
+  m_Name: UrbanLoft
   m_EditorClassIdentifier: 
-  assetId: 5
-  assetName: Electric Car
-  price: 100000
-  icon: {fileID: 21300000, guid: b1e57f42e6e074fa286e1508ed1d93db, type: 3}
-  followerPerHour: 700
-  followerBonus: 2000
+  assetId: 6
+  assetName: Urban Loft
+  price: 200000
+  icon: {fileID: 21300000, guid: 0ba09957f15dc477ab2d3c73613614c6, type: 3}
+  followerPerHour: 1500
+  followerBonus: 5000

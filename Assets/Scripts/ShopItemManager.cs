@@ -33,7 +33,7 @@ public class ShopItemManager : MonoBehaviour
         if (priceText != null) priceText.text = Utils.CurrencyToString(assetData.price);
         if (followerInfoText != null) 
         {
-            followerInfoText.text = $"+{assetData.followerPerHour:F1}/hr";
+            followerInfoText.text = $"+{assetData.followerPerHour:F0}/hr";
         }
 
         UpdateButtonStates();

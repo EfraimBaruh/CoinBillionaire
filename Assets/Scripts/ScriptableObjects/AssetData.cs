@@ -11,4 +11,6 @@ public class AssetData : ScriptableObject
     public int followerBonus;
     
     public float SellPrice => price * 0.7f; // 30% discount
+
+    public float SellBonus => followerBonus;
 }

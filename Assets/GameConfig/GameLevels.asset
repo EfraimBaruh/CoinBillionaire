@@ -18,7 +18,7 @@ MonoBehaviour:
     heistScene: HeistCity
     heistReachPrice: 200
     heistGainPrice: 300
-    maxPrice: 50
+    maxPrice: 25
     maxCap: 130
     period: 60
   - levelID: 1
@@ -26,7 +26,7 @@ MonoBehaviour:
     heistScene: HeistCity
     heistReachPrice: 400
     heistGainPrice: 700
-    maxPrice: 80
+    maxPrice: 25
     maxCap: 200
     period: 90
   - levelID: 2
