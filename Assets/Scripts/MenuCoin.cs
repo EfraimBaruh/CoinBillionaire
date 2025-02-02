@@ -139,13 +139,17 @@ public class MenuCoin : MonoBehaviour
 
     public void BuyCoin()
     {
-        Wallet.Singleton.BuyCoin(_coin);
-        CoinSpawner.instance.DOOnCoinUse(_coin);
+        int quantity = CashPercentageManager.Instance.CalculateCoinQuantity(_coin.price, Wallet.Instance.Cash);
+        if (quantity > 0)
+        {
+            Wallet.Instance.BuyCoin(_coin, quantity);
+            CoinSpawner.instance.DOOnCoinUse(_coin);
+        }
     }
     
     public void SellCoin()
     {
-        Wallet.Singleton.SellCoin(_coin);
+        Wallet.Instance.SellCoin(_coin);
         CoinSpawner.instance.DOOnCoinNoUse(_coin);
     }
     
@@ -198,7 +202,9 @@ public class MenuCoin : MonoBehaviour
             UpdateState();
             UpdateSprite();
             _onCoinUpdate?.Invoke();
-            Wallet.UpdateWallet.Invoke();
+            
+            if (Wallet.Instance != null)
+                Wallet.Instance.UpdateHoldings();
 
             yield return new WaitForSecondsRealtime(UpdateCoinTime);
         }

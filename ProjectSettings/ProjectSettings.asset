@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: startup
-  productName: Coin Billionare
+  productName: Meme Hype
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
@@ -279,7 +279,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: a8f25e9b233814bd2bc558a1bac5ac39, type: 3}
+      m_Icon: {fileID: 2800000, guid: e343af8ecbd09400c99b446d05d981af, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0

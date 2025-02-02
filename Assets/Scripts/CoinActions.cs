@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using ScriptableObjects;
 using UnityEngine;
@@ -96,6 +95,7 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             {
                 // Set layer to release state at the end of drag.
                 gameObject.layer = dragAndReleaseLayers.onDragFreeLayer;
+                ControlParent();
                 ControlAction();
             });
 

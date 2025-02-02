@@ -27,9 +27,6 @@ namespace DefaultNamespace
         // Call this method to unlock a coin
         public void UnlockCoin()
         {
-            Debug.LogWarning($"Buy process: TotalValue : {AppData.TotalValue}");
-            if(!Wallet.Singleton.Buy(unlockPrice))
-                Debug.LogWarning("Return here");
             
             if (!AppData.UnlockedCoins.Contains(_coin.id))
             {

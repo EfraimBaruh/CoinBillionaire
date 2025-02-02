@@ -1,99 +1,76 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class Wallet : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI totalValue;
-    public Dictionary<Coin, int> walletCoins = new Dictionary<Coin, int>();
+    private Dictionary<Coin, int> _walletCoins = new Dictionary<Coin, int>();
 
-    public static Wallet Singleton;
-
-    public static Action UpdateWallet;
+    public static Wallet Instance;
     
-    public static Action onStackExchange;
+    public static Action OnStackExchange;
 
-    private static float TotalValue;
+    [SerializeField] private User user;
 
-    private static float USD = 100f;
+    // Replace _cash property with direct access to user's cash
+    public float Cash => user.userData.Cash;
 
-    private void Awake() => Singleton = this;
-
-    private void CalculateTotalAssetValue()
+    private void Awake()
     {
-        float total = 0f;
+        Instance = this;
+    }
 
-        foreach (var coinAsset in walletCoins)
-            total += coinAsset.Value * coinAsset.Key.price;
+    public void CalculateTotalAssetValue()
+    {
+        float coinHoldings = 0f;
+
+        foreach (var coinAsset in _walletCoins)
+        {
+            coinHoldings += coinAsset.Value * coinAsset.Key.price;
+        }
         
-        TotalValue = USD + total;
-        SetTotalValueText();
-        AppData.SetTotalValue(TotalValue);
-        AppData.SetUSD(USD);
+        float totalValue = user.userData.Cash + coinHoldings;
+        user.SetMoney(totalValue);
     }
 
     public void SellCoin(Coin coin)
     {
-        if (walletCoins.ContainsKey(coin))
+        if (_walletCoins.ContainsKey(coin))
         {
-            USD += walletCoins[coin] * coin.price;
-            walletCoins.Remove(coin);
-            UpdateWallet.Invoke();
-            onStackExchange.Invoke();
-            Debug.LogError($"Sell coin {coin.id} completed.");
+            float sellValue = _walletCoins[coin] * coin.price;
+            _walletCoins.Remove(coin);
+            user.UpdateCash(sellValue); // Use UpdateCash instead of modifying local _cash
+            OnStackExchange?.Invoke();
+            CalculateTotalAssetValue();
+            Debug.LogError($"Sell coin {coin.id} completed. Cash: {user.userData.Cash}");
         }
     }
 
-    public void BuyCoin(Coin coin)
+    public void BuyCoin(Coin coin, int quantity)
     {
-        // check whether you can buy
-        if (USD > coin.price)
-        {
-            if (walletCoins.ContainsKey(coin))
-                return;
+        float totalCost = coin.price * quantity;
+        if (user.userData.Cash < totalCost)
+            return;
             
-            walletCoins.Add(coin, 1);
-
-                USD -= coin.price;
-            UpdateWallet.Invoke();
-            onStackExchange.Invoke();
-            Debug.LogError($"Buy Coin {coin.id} completed.");
-        }
-    }
-
-    public bool Buy(int price)
-    {
-        // check whether you can buy
-        if (USD > price)
+        if (_walletCoins.ContainsKey(coin))
         {
-            USD -= price;
-            UpdateWallet.Invoke();
-            return true;
+            _walletCoins[coin] += quantity;
         }
-
-        return false;
+        else
+        {
+            _walletCoins.Add(coin, quantity);
+        }
+        
+        user.UpdateCash(-totalCost); // Use UpdateCash instead of modifying local _cash
+        OnStackExchange?.Invoke();
+        CalculateTotalAssetValue();
+        Debug.LogError($"Buy Coin {coin.id} completed. Quantity: {quantity}, Cash: {user.userData.Cash}");
     }
 
-    private void SetTotalValueText()
+    // Add method to update holdings when coin prices change
+    public void UpdateHoldings()
     {
-        totalValue.text = Utils.CurrencyToString(TotalValue);
-    }
-
-    private void OnEnable()
-    {
-        TotalValue = AppData.TotalValue;
-        
-        AppData.USD = TotalValue;
-
-        USD = AppData.USD;
-        
-        UpdateWallet += CalculateTotalAssetValue;
-    }
-    
-    private void OnDisable()
-    {
-        UpdateWallet -= CalculateTotalAssetValue;
-        
+        if (_walletCoins.Count > 0)
+            CalculateTotalAssetValue();
     }
 }

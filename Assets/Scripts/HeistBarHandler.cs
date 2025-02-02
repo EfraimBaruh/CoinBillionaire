@@ -12,7 +12,7 @@ public class HeistBarHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        Wallet.onStackExchange += UpdateHeistBar;
+        Wallet.OnStackExchange += UpdateHeistBar;
         currentMaxAmount = AppData.GameLevelInfo.heistReachPrice;
     }
 
@@ -32,7 +32,7 @@ public class HeistBarHandler : MonoBehaviour
 
     private void OnDisable()
     {
-        Wallet.onStackExchange -= UpdateHeistBar;
+        Wallet.OnStackExchange -= UpdateHeistBar;
         
         PlayerPrefs.SetInt("heistMaxCount", currentMaxAmount);
     }

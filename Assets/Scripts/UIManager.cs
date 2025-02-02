@@ -5,7 +5,7 @@ public class UIManager : MonoBehaviour
 {
     [Header("UI Elements")]
     [Tooltip("Assign child UI elements here.")]
-    public GameObject[] childObjects; // Array of child objects
+    public Canvas[] childObjects; // Array of child objects
 
     public void Awake()
     {
@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
         // Loop through all child objects
         for (int i = 0; i < childObjects.Length; i++)
         {
-            childObjects[i].SetActive(i == childIndex);
+            childObjects[i].enabled = i == childIndex;
         }
     }
 }
