@@ -22,14 +22,53 @@ public class MenuCoin : MonoBehaviour
     [SerializeField] private float minSize, maxSize;
 
     [SerializeField] private CloudyMessageController cloudyMessageController;
+    
+    [SerializeField] private PriceGraph priceGraph;
+    
+    public Coin Coin
+    {
+        get { return _coin; }
+        set { _coin = value; }
+    }
 
     #region Coin Update Formula
 
-    private float _magnitude;
+    private float _targetPrice;  // Equilibrium price based on Product
+    private float _velocity;     // Price change velocity
+    private const float TIME_STEP = 0.02f;  // Fixed time step for simulation stability
 
-    private float _periodicity;
+    private float CalculateNaturalFrequency()
+    {
+        // Community affects how quickly the system responds
+        // Higher community = faster oscillations
+        return Mathf.Lerp(0.5f, 2.0f, (_coin.Community - 20f) / 80f);
+    }
 
-    private float _initialTime;
+    private float CalculateDampingRatio()
+    {
+        // Team affects damping
+        // High Team (100) = Overdamped (ζ = 1.5)
+        // Medium Team (60) = Critically Damped (ζ = 1.0)
+        // Low Team (20) = Underdamped (ζ = 0.3)
+        return Mathf.Lerp(0.3f, 1.5f, (_coin.Team - 20f) / 80f);
+    }
+
+    private float CalculateTargetPrice()
+    {
+        // Product determines the equilibrium price
+        // Using similar exponential scaling as before
+        float basePrice = 10f;
+        float growthFactor = 10f;
+        return basePrice * Mathf.Pow(growthFactor, (_coin.Product - 20f) / 15f);
+    }
+
+    private float CalculateExternalForce()
+    {
+        // Market sentiment and random forces
+        float marketForce = _marketSentiment * 50f;  // Scale market impact
+        float randomForce = Random.Range(-20f, 20f); // Random market noise
+        return marketForce + randomForce;
+    }
     
     #endregion
 
@@ -44,8 +83,6 @@ public class MenuCoin : MonoBehaviour
     [Header("Coin Defaults")]
     public float UpdateCoinTime;
 
-    public float UpdateStateTime;
-
     private MenuCoinState _coinState;
     public MenuCoinState CoinState
     {
@@ -58,21 +95,6 @@ public class MenuCoin : MonoBehaviour
         }
     }
 
-    private int updateSpeed = 20;
-
-    public int UpdateSpeed
-    {
-        set { updateSpeed = value; }
-    }
-
-    private float _ratio;
-
-    public Coin Coin
-    {
-        get { return _coin; }
-        set { _coin = value; }
-    }
-
     private Button coinButton;
 
     private Image _image;
@@ -80,6 +102,13 @@ public class MenuCoin : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
 
     private Action _onCoinUpdate;
+
+    [Header("Market Sentiment")]
+    private static float _marketSentiment = 0f; // Range: -1 (very bearish) to 1 (very bullish)
+    private static float _marketMomentum = 0f;  // How quickly sentiment changes
+    private const float SENTIMENT_CHANGE_SPEED = 0.2f;
+    private const float MAX_MOMENTUM = 0.1f;
+
     private void Awake()
     {
         coinButton = GetComponent<Button>();
@@ -101,23 +130,19 @@ public class MenuCoin : MonoBehaviour
 
     }
 
-    public void Initialize(float magnitude, float periodicity, string message)
+    public void Initialize(string message)
     {
-        UpdateCoinPreset(magnitude, periodicity);
-        
         _sizeScaler = GetSizeMapped();
-
         _onDestroyAction = false;
-        
+        _coin.price = 1;
         _coin.stagePrice = _coin.price;
         _coin.previousPrice = _coin.price;
         icon.sprite = _coin.icon;
         
-        // Calculate booster effect based on magnitude or another factor
-        float boosterEffect = magnitude / AppData.GameLevelInfo.maxPrice;
+        float boosterEffect = _coin.price / AppData.GameLevelInfo.maxPrice;
         cloudyMessageController.InitializeCloudyMessage(message, boosterEffect);
-        
-        Debug.Log("Coin:" + _coin.id);
+
+        priceGraph = FindObjectOfType<PriceGraph>();
         
         StartCoroutine(UpdateCoin());
     }
@@ -156,20 +181,6 @@ public class MenuCoin : MonoBehaviour
     #endregion
     #region UpdateCoinState
 
-    public void UpdateCoinPreset(float magnitude, float periodicity)
-    {
-        _magnitude = magnitude;
-        _periodicity = periodicity;
-        _initialTime = Time.time;
-
-    }
-
-    private void UpdateCoinSt()
-    {
-        float ratio = Utils.GetRatio(_magnitude);
-        UpdateCoinPreset(ratio * AppData.GameLevelInfo.maxPrice, 0.07f / ratio);
-    }
-    
     private void UpdateState()
     {
         _coinState = _coin.price >= _coin.previousPrice ? (MenuCoinState)1 : 0;
@@ -213,19 +224,34 @@ public class MenuCoin : MonoBehaviour
 
     private void UpdatePrice()
     {
+        float omega = CalculateNaturalFrequency();
+        float damping = CalculateDampingRatio();
+        _targetPrice = CalculateTargetPrice();
+        float force = CalculateExternalForce();
+
+        // Second-order differential equation:
+        // d²p/dt² + 2ζω₀(dp/dt) + ω₀²(p - p₀) = F(t)
+        float springForce = Mathf.Pow(omega, 2) * (_targetPrice - _coin.price);
+        float dampingForce = 2f * damping * omega * _velocity;
+        
+        // Calculate acceleration
+        float acceleration = springForce - dampingForce + force;
+        
+        // Update velocity and position (price)
+        _velocity += acceleration * TIME_STEP;
         _coin.previousPrice = _coin.price;
+        _coin.price += _velocity * TIME_STEP;
 
-        float coinTime = Time.time - _initialTime;
-        if(coinTime > 0.5) coinTime /= 2;
-        _coin.price = Mathf.Abs(_magnitude * Mathf.Sin(_periodicity * coinTime));
-
+        // Ensure price doesn't go below minimum
         ControlPrice();
+
+        // Update graph
+        if (priceGraph != null)
+            priceGraph.AddPrice(_coin.price);
     }
     
     private void UpdatePercentage()
     {
-        float previousPrice = _coin.previousPrice;
-
         float currentPrice = _coin.price;
 
         _coin.percentage = Utils.CalculatePercentage(_coin.stagePrice, currentPrice);
@@ -275,7 +301,6 @@ public class MenuCoin : MonoBehaviour
         {
             _coin.price = 0.2f;
             _coin.previousPrice = _coin.price;
-            UpdateCoinSt();
         }
     }
     
@@ -307,5 +332,28 @@ public class MenuCoin : MonoBehaviour
     {
         return 3 / (float)AppData.GameLevelInfo.maxPrice;
     }
-    
+
+    private void UpdateMarketSentiment()
+    {
+        _marketMomentum += Random.Range(-SENTIMENT_CHANGE_SPEED * 1.5f, SENTIMENT_CHANGE_SPEED * 1.5f) * Time.deltaTime;
+        _marketMomentum = Mathf.Clamp(_marketMomentum, -MAX_MOMENTUM * 1.5f, MAX_MOMENTUM * 1.5f);
+        
+        _marketSentiment += _marketMomentum * Time.deltaTime * 1.5f;
+        _marketSentiment = Mathf.Clamp(_marketSentiment, -1f, 1f);
+    }
+
+    public static void SetBullishMarket(float intensity = 0.5f)
+    {
+        _marketMomentum = MAX_MOMENTUM * intensity;
+    }
+
+    public static void SetBearishMarket(float intensity = 0.5f)
+    {
+        _marketMomentum = -MAX_MOMENTUM * intensity;
+    }
+
+    public static void SetNeutralMarket()
+    {
+        _marketMomentum = 0f;
+    }
 }

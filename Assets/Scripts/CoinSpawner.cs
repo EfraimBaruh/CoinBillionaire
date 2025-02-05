@@ -61,10 +61,8 @@ public class CoinSpawner : MonoBehaviour
         {
             var currentCoinCount = _deSpawn.Count + coinsInUse.Count;
             
-            Debug.LogError(AppData.GameLevelInfo.maxPrice);
-
             if (currentCoinCount < coinSize)
-                SpawnCoin(AppData.GameLevelInfo.maxPrice);
+                SpawnCoin();
 
             if (currentCoinCount >= coinSize)
                 break;//DespawnCoin();
@@ -73,7 +71,7 @@ public class CoinSpawner : MonoBehaviour
         }
     }
 
-    private void SpawnCoin(int maxPrice)
+    private void SpawnCoin()
     {
         Coin spawnCoin = _spawn.Dequeue();
         GameObject coin = Instantiate(menuCoin, spawnArea);
@@ -82,16 +80,9 @@ public class CoinSpawner : MonoBehaviour
 
         MenuCoin menuC = coin.GetComponent<MenuCoin>();
         menuC.Coin = spawnCoin;
-        menuC.UpdateSpeed = Random.Range(2, 6);
-        
-        float magnitude = _spawnCounter % 5;
-        if (magnitude > 1 && magnitude <= 3)
-            magnitude = 0.6f;
-        else if (magnitude < 1 || magnitude > 3)
-            magnitude = 0.5f;
 
         string randomMessage = cloudyMessages.Messages[Random.Range(0, cloudyMessages.Messages.Count)];
-        menuC.Initialize(maxPrice * magnitude, 0.07f / magnitude, randomMessage);
+        menuC.Initialize(randomMessage);
 
         onCoinSpawn.Invoke(menuC.Coin);
         _spawnCounter++;

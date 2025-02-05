@@ -390,8 +390,8 @@ MonoBehaviour:
   minSize: 1
   maxSize: 1.8
   cloudyMessageController: {fileID: 2083680923380264834}
+  priceGraph: {fileID: 0}
   UpdateCoinTime: 0.2
-  UpdateStateTime: 8
 --- !u!50 &2508875796667128551
 Rigidbody2D:
   serializedVersion: 4

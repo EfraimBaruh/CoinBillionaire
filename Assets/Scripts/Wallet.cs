@@ -73,4 +73,17 @@ public class Wallet : MonoBehaviour
         if (_walletCoins.Count > 0)
             CalculateTotalAssetValue();
     }
+
+    private void OnApplicationQuit()
+    {
+        // Create a new list with the keys to avoid enumeration issues
+        var coinsToSell = new List<Coin>(_walletCoins.Keys);
+        
+        foreach (var coin in coinsToSell)
+        {
+            SellCoin(coin);
+        }
+        
+        Debug.Log("Sold all coins");
+    }
 }
