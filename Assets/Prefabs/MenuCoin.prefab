@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 232724401882527143}
   - component: {fileID: 4867831416996887764}
   - component: {fileID: 2083680923380264834}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: message
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 4007461970931929236}
   - component: {fileID: 442610873650619949}
   - component: {fileID: 2275803053548751359}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Price
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 2508875796667128551}
   - component: {fileID: 800979325747148004}
   - component: {fileID: 3275745826124856615}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: MenuCoin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -483,7 +483,7 @@ GameObject:
   - component: {fileID: 8201351450725104373}
   - component: {fileID: 8201351450725104375}
   - component: {fileID: 8201351450725104374}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -559,7 +559,7 @@ GameObject:
   - component: {fileID: 8201351452101130881}
   - component: {fileID: 8201351452101130883}
   - component: {fileID: 8201351452101130882}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Percentage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -694,7 +694,7 @@ GameObject:
   - component: {fileID: 3265521992994202705}
   - component: {fileID: 636252998864401075}
   - component: {fileID: 7374348329964459403}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

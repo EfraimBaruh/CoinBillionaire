@@ -15,10 +15,10 @@ MonoBehaviour:
   id: 2
   Name: 
   icon: {fileID: 21300000, guid: 9ff597aec688b41fd9f841304fa2006d, type: 3}
-  price: 1
-  previousPrice: 0
-  stagePrice: 0
-  percentage: 0
+  price: 10.333382
+  previousPrice: 10.34557
+  stagePrice: 8
+  percentage: 3.6459088
   Team: 30
-  Product: 22
-  Community: 20
+  Product: 40
+  Community: 21

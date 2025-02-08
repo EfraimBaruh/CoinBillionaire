@@ -29,5 +29,5 @@ public class Coin : ScriptableObject
 
     [Range(20, 100)]
     public int Community;   // Influences how quickly the coin value changes.
-                           // Higher values result in faster price movements
+                           // Higher values result in slower price movements
 }

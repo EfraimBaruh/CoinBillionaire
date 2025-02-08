@@ -11,4 +11,9 @@ public class UserData
     public float followerCount;
     public List<string> ownedAssetIds = new List<string>();
     
+    // Timer related data
+    public float TimerRemaining { get; set; }
+    public int CurrentCycle { get; set; }
+    public long LastTimestamp { get; set; }
+    public bool IsTimerRunning { get; set; }
 }

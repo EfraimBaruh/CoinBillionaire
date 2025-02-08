@@ -50,9 +50,7 @@ public static class Utils
 
     public static float CalculatePercentage(float previous, float current)
     {
-        float difference = (current - previous) / previous;
-
-        return difference;
+        return ((current - previous) / previous) * 100;
     }
 
     public static float GetRatio(float previousMax)

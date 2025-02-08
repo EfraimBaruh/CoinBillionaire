@@ -15,10 +15,10 @@ MonoBehaviour:
   id: 1
   Name: 1_cat
   icon: {fileID: 21300000, guid: 7450fceac557443509d3411f8dab0097, type: 3}
-  price: 1
-  previousPrice: 0
-  stagePrice: 0
-  percentage: 0
-  Team: 23
-  Product: 26
-  Community: 30
+  price: 29.46861
+  previousPrice: 29.605555
+  stagePrice: 12
+  percentage: 12.13098
+  Team: 34
+  Product: 27
+  Community: 36

@@ -82,7 +82,7 @@ public class User : MonoBehaviour
         RaiseMoneyUpdate();
     }
 
-    private void SaveUserData()
+    public void SaveUserData()
     {
         string filePath = Path.Combine(Application.persistentDataPath, SAVE_FILE_PATH);
         string jsonData = JsonConvert.SerializeObject(userData);

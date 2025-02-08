@@ -4,27 +4,38 @@ using TMPro;
 
 public class CountdownTimerInstance : MonoBehaviour
 {
+    #region Fields
     [Header("UI Components")]
-    public TextMeshProUGUI countdownText; // Reference to TextMeshProUGUI component
+    [SerializeField] private TextMeshProUGUI countdownText;
+    [SerializeField] private TextMeshProUGUI cycleText;
 
     [Header("Fill Settings")]
-    public bool reverseFill = false; // If true, the bar fills as time runs out
-    public UnityEvent<float> onTimeMapped; // Event to raise with mapped time
-    public UnityEvent onTimerFinishedLocalAction; // Event to raise with mapped time
+    [SerializeField] private bool reverseFill = false;
 
     [Header("Global Timer")]
-    [Tooltip("Reference to the global timer.")]
-    public GlobalTimer globalTimer;
+    [SerializeField] private GlobalTimer globalTimer;
+    #endregion
 
+    #region Events
+    public UnityEvent<float> onTimeMapped;
+    public UnityEvent onTimerFinishedLocalAction;
+    #endregion
+
+    #region Properties
+    private float StartTime => globalTimer ? globalTimer.StartTime : 0f;
+    private int CurrentCycle => globalTimer ? globalTimer.CurrentCycle : 0;
+    #endregion
+
+    #region Unity Methods
     private void OnEnable()
     {
         if (globalTimer != null)
         {
-            // Subscribe to global timer events
             globalTimer.onTimeRemainingChanged.AddListener(UpdateTimerUI);
+            globalTimer.onTimeRemainingChangedSt.AddListener(UpdateTimerText);
             globalTimer.onTimerFinished.AddListener(OnTimerFinished);
+            globalTimer.onCycleCompleted.AddListener(OnCycleCompleted);
 
-            // Sync with the current timer state
             SyncWithGlobalTimer();
         }
     }
@@ -33,15 +44,27 @@ public class CountdownTimerInstance : MonoBehaviour
     {
         if (globalTimer != null)
         {
-            // Unsubscribe from global timer events
             globalTimer.onTimeRemainingChanged.RemoveListener(UpdateTimerUI);
+            globalTimer.onTimeRemainingChangedSt.RemoveListener(UpdateTimerText);
             globalTimer.onTimerFinished.RemoveListener(OnTimerFinished);
+            globalTimer.onCycleCompleted.RemoveListener(OnCycleCompleted);
         }
     }
+    #endregion
 
-    /// <summary>
-    /// Syncs the UI with the current state of the global timer.
-    /// </summary>
+    #region Public Methods
+    public void StartTimer()
+    {
+        globalTimer?.StartTimer();
+    }
+
+    public void ResetTimer()
+    {
+        globalTimer?.ResetTimer();
+    }
+    #endregion
+
+    #region Private Methods
     private void SyncWithGlobalTimer()
     {
         if (globalTimer.IsTimerFinished)
@@ -55,34 +78,45 @@ public class CountdownTimerInstance : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Updates the timer UI based on the remaining time.
-    /// </summary>
-    /// <param name="normalizedTime">Normalized remaining time (0-1).</param>
     private void UpdateTimerUI(float normalizedTime)
     {
-        // Calculate the actual time remaining
-        float timeRemaining = globalTimer.startTime * normalizedTime;
-
-        // Format the time into minutes and seconds
-        int minutes = Mathf.FloorToInt(timeRemaining / 60);
-        int seconds = Mathf.FloorToInt(timeRemaining % 60);
-
-        // Update the text with the formatted time
-        countdownText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-
-        // Apply reverse fill logic if needed
         float mappedTime = reverseFill ? 1f - normalizedTime : normalizedTime;
-
-        // Raise the mapped time event for UI updates
         onTimeMapped?.Invoke(mappedTime);
     }
 
-    /// <summary>
-    /// Handles the event when the timer finishes.
-    /// </summary>
+    private void UpdateTimerText(string timeText)
+    {
+        if (countdownText != null)
+        {
+            float timeValue = float.Parse(timeText);
+            float timeRemaining = StartTime * timeValue;
+            
+            int minutes = Mathf.FloorToInt(timeRemaining / 60);
+            int seconds = Mathf.FloorToInt(timeRemaining % 60);
+            countdownText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
+
+        if (cycleText != null)
+        {
+            cycleText.text = $"Cycle: {CurrentCycle + 1}";
+        }
+    }
+
     private void OnTimerFinished()
     {
-        onTimerFinishedLocalAction.Invoke();
+        if (countdownText != null)
+        {
+            countdownText.text = "00:00";
+        }
+        onTimerFinishedLocalAction?.Invoke();
     }
+
+    private void OnCycleCompleted()
+    {
+        if (cycleText != null)
+        {
+            cycleText.text = $"Cycle: {CurrentCycle + 1}";
+        }
+    }
+    #endregion
 }
