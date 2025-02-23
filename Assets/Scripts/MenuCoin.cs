@@ -38,7 +38,7 @@ public class MenuCoin : MonoBehaviour
     #endregion
 
     #region Constants
-    private const float TIME_STEP = 0.002f;
+    private const float TIME_STEP = 0.02f;
     private const float SETTLING_THRESHOLD = 0.05f;
     private const float SENTIMENT_CHANGE_SPEED = 0.2f;
     private const float MAX_MOMENTUM = 0.1f;

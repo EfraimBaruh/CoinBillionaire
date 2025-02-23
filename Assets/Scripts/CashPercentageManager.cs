@@ -21,7 +21,7 @@ public class CashPercentageManager : MonoBehaviour
         }
     }
 
-    private float _currentPercentage = 100f; // Default to 100%
+    private float _currentPercentage = 25f; // Default to 100%
 
     public UnityEvent<string> onPercentageUpdated;
     

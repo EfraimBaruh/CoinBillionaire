@@ -6,7 +6,7 @@ namespace ScriptableObjects
     public class LayerListSo : ScriptableObject
     {
         public int onDragLayer;
-        public int onReleaseLayer;
-        public int onDragFreeLayer;
+        public int onMarketLayer;
+        public int onWalletLayer;
     }
 }

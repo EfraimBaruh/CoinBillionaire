@@ -44,22 +44,26 @@ public class Wallet : MonoBehaviour
             CalculateTotalAssetValue();
             Debug.LogError($"Sell coin {coin.id} completed. Cash: {user.userData.Cash}");
         }
+        else
+        {
+            Debug.LogError($"Coin was never bought in the first place: {coin.id}");
+        }
     }
 
     public void BuyCoin(Coin coin, int quantity)
     {
+        if (_walletCoins.ContainsKey(coin))
+        {
+            Debug.LogError("Coin was already bought");
+            return;
+        }
+        
         float totalCost = coin.price * quantity;
         if (user.userData.Cash < totalCost)
             return;
-            
-        if (_walletCoins.ContainsKey(coin))
-        {
-            _walletCoins[coin] += quantity;
-        }
-        else
-        {
-            _walletCoins.Add(coin, quantity);
-        }
+        
+        _walletCoins.Add(coin, quantity);
+        
         
         user.UpdateCash(-totalCost); // Use UpdateCash instead of modifying local _cash
         OnStackExchange?.Invoke();

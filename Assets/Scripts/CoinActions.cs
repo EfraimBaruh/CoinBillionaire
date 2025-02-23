@@ -11,11 +11,10 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     #region  Dependencies
     private Rigidbody2D _rigidbody2D;
     private CircleCollider2D _circleCollider2D;
-    private Camera _mainCamera;
     #endregion
 
     #region Properties
-    public LayerListSo dragAndReleaseLayers;
+    public LayerListSo coinLayerList;
     #endregion
 
     #region Fields
@@ -41,7 +40,6 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         _menuCoin = GetComponent<MenuCoin>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _circleCollider2D = GetComponent<CircleCollider2D>();
-        _mainCamera = Camera.main;
 
         _marketArea = CoinSpawner.instance.SpawnArea;
         _walletArea = CoinSpawner.instance.WalletArea;
@@ -57,6 +55,8 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         if (_inAction)
         {
+            ControlLayers();
+
             if (_rigidbody2D.velocity.magnitude == 0)
             {
                 ControlParent();
@@ -68,10 +68,9 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData data)
     {
-        // Set drag layer.
-        gameObject.layer = dragAndReleaseLayers.onDragLayer;
-        
         CoinSpawner.instance.DOOnCoinUse(_menuCoin.Coin);
+        
+        ControlLayers();
     }
 
     public void OnDrag(PointerEventData data)
@@ -81,6 +80,7 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             _rigidbody2D.velocity = data.delta/4;
 
             ControlParent();
+            ControlLayers();
         }
     }
 
@@ -93,20 +93,36 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 _rigidbody2D.velocity = velocity;
             }).OnComplete(() =>
             {
-                // Set layer to release state at the end of drag.
-                gameObject.layer = dragAndReleaseLayers.onDragFreeLayer;
-                ControlParent();
+                var parent = ControlParent();
                 ControlAction();
+                ControlLayers();
+
+                float scaledRadius = _circleCollider2D.radius * transform.lossyScale.x;
+                float coinCenterY = transform.position.y;
+                float overlapPercentage = (coinCenterY - (_walletEntrancePosY - scaledRadius)) / (scaledRadius * 2);
+                
+                if(Mathf.Abs(overlapPercentage) < 1 && Mathf.Abs(overlapPercentage) > 0.3f){
+                    if(parent == _marketArea){
+                        transform.DOMoveY(_walletEntrancePosY + scaledRadius, 0.3f).SetEase(Ease.OutQuad);
+                    }
+                    else{
+                        transform.DOMoveY(_walletEntrancePosY - scaledRadius, 0.3f).SetEase(Ease.OutQuad);
+                    }
+                }
             });
 
     }
 
-    private void ControlParent()
+    private Transform ControlParent()
     {
-        if(transform.position.y > _walletEntrancePosY)
+        if(transform.position.y > _walletEntrancePosY){
             transform.SetParent(_marketArea);
-        else
+            return _marketArea;
+        }
+        else{
             transform.SetParent(_walletArea);
+            return _walletArea;
+        }
     }
 
     private bool InWallet()
@@ -122,12 +138,28 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             onWallet.Invoke();
     }
 
+    private void ControlLayers()
+    {
+        if (Mathf.Abs(_rigidbody2D.velocity.magnitude) > 0)
+        {
+            gameObject.layer = coinLayerList.onDragLayer;
+        }
+        else
+        {
+            if (InWallet())
+                gameObject.layer = coinLayerList.onWalletLayer;
+            else
+            {
+                gameObject.layer = coinLayerList.onMarketLayer;
+            }
+        }
+    }
+
     public void SendBacktoMarket()
     {
 
         if (InWallet() && _rigidbody2D.velocity.magnitude == 0)
         {
-            gameObject.layer = dragAndReleaseLayers.onDragLayer;
             _rigidbody2D.velocity = Vector2.up * 50;
             _inAction = true;
             SendBacktoMarket();
