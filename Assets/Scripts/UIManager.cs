@@ -1,11 +1,14 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UIManager : MonoBehaviour
 {
     [Header("UI Elements")]
     [Tooltip("Assign child UI elements here.")]
     public Canvas[] childObjects; // Array of child objects
+
+    public UnityEvent<int> onScreenChange;
 
     public void Awake()
     {
@@ -35,5 +38,7 @@ public class UIManager : MonoBehaviour
         {
             childObjects[i].enabled = i == childIndex;
         }
+        
+        onScreenChange.Invoke(childIndex);
     }
 }

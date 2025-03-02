@@ -148,7 +148,7 @@ public class MenuCoin : MonoBehaviour
     private float CalculateTargetPrice()
     {
         float basePrice = _coin.stagePrice;
-        float growthFactor = 10f;
+        float growthFactor = 1.5f; // Reduced from 10f to limit growth
         return basePrice * Mathf.Pow(growthFactor, (_coin.Product - 20f) / 15f);
     }
 
@@ -159,12 +159,12 @@ public class MenuCoin : MonoBehaviour
         float stepForce = 0f;
         
         if (timeSinceStart < 1f)
-            stepForce = 150f;
+            stepForce = 50f; // Reduced from 150f
         else if (timeSinceStart < 2f)
-            stepForce = 250f;
+            stepForce = 80f; // Reduced from 250f
         
-        float marketForce = _marketSentiment * 100f * communityDamping;
-        float randomForce = Random.Range(-40f, 40f) * communityDamping;
+        float marketForce = _marketSentiment * 30f * communityDamping; // Reduced from 100f
+        float randomForce = Random.Range(-20f, 20f) * communityDamping; // Reduced from -40f, 40f
         
         return marketForce + randomForce + stepForce;
     }

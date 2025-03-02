@@ -67,23 +67,27 @@ public static class Utils
         return ratio;
     }
 
-    public static string CurrencyToString(float money)
+    public static string CurrencyToString(float money, int decimals = 0)
     {
-        List<CurrencyShort> currencyShorts = GameManager.Instance.appConfig.currencyShorts;
-        int digitCount = NumberOfDigits((int)money);
+        string format = "F" + decimals;
         
-        int wholeNumCount = digitCount % 3;
-        wholeNumCount = wholeNumCount == 0 ? 3 : wholeNumCount;
-        float newNumber = money / Mathf.Pow(10, digitCount - wholeNumCount);
-        string fraction = "F" + (4 - wholeNumCount);
-        for (int i = 0; i < currencyShorts.Count; i++)
+        if (money >= 1000000000) // Billions
         {
-            if (digitCount == currencyShorts[i].digitCount)
-            {
-                return Currency +"  "+ newNumber.ToString(fraction) + currencyShorts[i].shortChar;
-            }
+            float billions = money / 1000000000f;
+            return Currency + "  " + billions.ToString(format) + "B";
         }
-        return Currency +"  "+ money.ToString("F0");
+        if (money >= 1000000) // Millions
+        {
+            float millions = money / 1000000f;
+            return Currency + "  " + millions.ToString(format) + "M";
+        }
+        if (money >= 10000) // Thousands
+        {
+            float thousands = money / 1000f;
+            return Currency + "  " + thousands.ToString(format) + "K";
+        }
+        
+        return Currency + "  " + money.ToString("F0"); // Always show whole numbers for small values
     }
     
     private static int NumberOfDigits(int number)

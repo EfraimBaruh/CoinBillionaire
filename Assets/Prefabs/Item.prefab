@@ -924,6 +924,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SellButton
       objectReference: {fileID: 0}
+    - target: {fileID: 6867498744063950476, guid: 9aee15a7570e145f488ac89760624490, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9aee15a7570e145f488ac89760624490, type: 3}
 --- !u!1 &2232073372933918761 stripped

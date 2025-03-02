@@ -10,6 +10,8 @@ public class UserData
 
     public float followerCount;
     public List<string> ownedAssetIds = new List<string>();
+
+    public List<int> unlockedCoins;
     
     // Timer related data
     public float TimerRemaining { get; set; }

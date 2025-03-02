@@ -18,6 +18,10 @@ public class Coin : ScriptableObject
 
     public float percentage;
 
+    public bool isUnlocked = false;
+
+    public float unlockPrice = 1000;
+
     [Header("Coin Characteristics")]
     [Range(20, 100)]
     public int Team;        // Affects coin stability. Higher values mean more stable growth,

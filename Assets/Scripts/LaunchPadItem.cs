@@ -3,38 +3,51 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.ProceduralImage;
 
-namespace DefaultNamespace
+public class LaunchPadItem : MonoBehaviour
 {
-    public class LaunchPadItem : MonoBehaviour
+    private Coin _coin;
+
+    [SerializeField] private Image icon;
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI priceText;
+    [SerializeField] private TextMeshProUGUI buyButtonText;
+    [SerializeField] private ProceduralImage buyButtonImage;
+    
+    [SerializeField] private ProceduralImage team;
+    [SerializeField] private ProceduralImage product;
+    [SerializeField] private ProceduralImage community;
+    
+    [SerializeField] private TextMeshProUGUI teamVal;
+    [SerializeField] private TextMeshProUGUI productVal;
+    [SerializeField] private TextMeshProUGUI communityVal;
+
+
+    public void SetCoin(Coin coin)
     {
-        public int unlockPrice;
-        private Coin _coin;
+        _coin = coin;
+        icon.sprite = coin.icon;
+        nameText.text = coin.Name;
+        priceText.text = "$" + coin.unlockPrice;
 
-        [SerializeField] private Image icon;
-        [SerializeField] private TextMeshProUGUI nameText;
-        [SerializeField] private TextMeshProUGUI priceText;
-        [SerializeField] private TextMeshProUGUI buyButtonText;
-        [SerializeField] private ProceduralImage buyButtonImage;
+        teamVal.text = coin.Team.ToString();
+        productVal.text = coin.Product.ToString();
+        communityVal.text = coin.Community.ToString();
 
-        public void SetCoin(Coin coin)
-        {
-            _coin = coin;
-            icon.sprite = coin.icon;
-            nameText.text = coin.name;
-            priceText.text = "$" + unlockPrice;
-        }
+        team.fillAmount = coin.Team / 100f;
+        product.fillAmount = coin.Product / 100f;
+        community.fillAmount = coin.Community / 100f;
+
+        buyButtonText.text = "Buy";
+        buyButtonImage.color = new Color(0,1,0,0.72f);
+    }
         
-        // Call this method to unlock a coin
-        public void UnlockCoin()
+    // Call this method to unlock a coin
+    public void UnlockCoin()
+    {
+        if (User.Instance.UnlockCoin(_coin))
         {
-            
-            if (!AppData.UnlockedCoins.Contains(_coin.id))
-            {
-                AppData.UnlockedCoins.Add(_coin.id);
-                AppData.SaveUnlockedCoins();
-                buyButtonText.text = "Bought";
-                buyButtonImage.color = Color.grey;
-            }
+            buyButtonText.text = "Bought";
+            buyButtonImage.color = Color.grey;
         }
     }
 }

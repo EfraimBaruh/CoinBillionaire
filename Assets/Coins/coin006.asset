@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: coin006
   m_EditorClassIdentifier: 
   id: 6
-  Name: 
+  Name: Dog_6
   icon: {fileID: 21300000, guid: b7e7732cbb9254556813c39b36b6d30d, type: 3}
   price: 12.489616
   previousPrice: 12.29329
   stagePrice: 0.2
   percentage: 61.448082
+  isUnlocked: 1
+  unlockPrice: 1000
+  Team: 0
+  Product: 0
+  Community: 0

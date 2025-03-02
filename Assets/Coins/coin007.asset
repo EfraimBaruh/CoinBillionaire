@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: coin007
   m_EditorClassIdentifier: 
   id: 7
-  Name: 
+  Name: Dog_7
   icon: {fileID: 21300000, guid: 6f1f650dbbb17406baf5aa023213965a, type: 3}
   price: 3.432891
   previousPrice: 3.37072
   stagePrice: 0.2
   percentage: 16.164454
+  isUnlocked: 1
+  unlockPrice: 1000
+  Team: 0
+  Product: 0
+  Community: 0

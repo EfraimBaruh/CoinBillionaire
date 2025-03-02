@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: coin005
   m_EditorClassIdentifier: 
   id: 5
-  Name: 
+  Name: Dog_5
   icon: {fileID: 21300000, guid: 7de7c48deb912445f8a2bb02b88ae50c, type: 3}
   price: 2.7137449
   previousPrice: 2.7431388
   stagePrice: 0.2
   percentage: 12.568725
+  isUnlocked: 1
+  unlockPrice: 1000
   Team: 28
   Product: 44
   Community: 39

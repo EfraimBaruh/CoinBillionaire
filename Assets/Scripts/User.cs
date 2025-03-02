@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
@@ -26,6 +25,8 @@ public class User : MonoBehaviour
         }
     }
 
+   public CoinList coinList;
+
     [SerializeField] private List<AssetData> availableAssets;
     
     public UserData userData;
@@ -34,6 +35,7 @@ public class User : MonoBehaviour
     public UnityEvent<string> totalMoneyUpdated;
     public UnityEvent<string> cashUpdated;
     public UnityEvent assetsUpdated;
+    public UnityEvent unlockedCoinsUpdated;
     
     private void Awake()
     {
@@ -72,13 +74,15 @@ public class User : MonoBehaviour
                 TotalMoney = 100f, // Starting money
                 Cash = 100f,      // Starting cash
                 followerCount = 0f,
-                ownedAssetIds = new List<string>()
+                ownedAssetIds = new List<string>(),
+                unlockedCoins = new List<int>{0,1,2,3,4,5}
             };
             
             Debug.Log("Initiated a new user:" + JsonConvert.SerializeObject(userData));
             SaveUserData();
         }
         
+        UpdateCoinList();
         RaiseMoneyUpdate();
     }
 
@@ -145,6 +149,21 @@ public class User : MonoBehaviour
         return false;
     }
 
+    public bool UnlockCoin(Coin coin)
+    {
+        if (userData.Cash >= coin.unlockPrice && !userData.unlockedCoins.Contains(coin.id))
+        {
+            UpdateCash(-coin.unlockPrice);
+            UpdateMoney(-coin.unlockPrice);
+            userData.unlockedCoins.Add(coin.id);
+            SaveUserData();
+            UpdateCoinList();
+            unlockedCoinsUpdated?.Invoke();
+            return true;
+        }
+        return false;
+    }
+
     public void UpdateMoney(float change)
     {
         userData.TotalMoney += change;
@@ -165,7 +184,7 @@ public class User : MonoBehaviour
 
     private void RaiseMoneyUpdate()
     {
-        var display = Utils.CurrencyToString(userData.TotalMoney);
+        var display = Utils.CurrencyToString(userData.TotalMoney, 2);
         totalMoneyUpdated?.Invoke(display);
         var display2 = Utils.CurrencyToString(userData.Cash);
         cashUpdated?.Invoke(display2);
@@ -175,6 +194,17 @@ public class User : MonoBehaviour
     {
         userData.followerCount += change;
         SaveUserData();
+    }
+
+    private void UpdateCoinList()
+    {
+        foreach (var coin in coinList.coins)
+        {
+            if (userData.unlockedCoins.Contains(coin.id))
+            {
+                coin.isUnlocked = true;
+            }
+        } 
     }
 
     // Getters for UI

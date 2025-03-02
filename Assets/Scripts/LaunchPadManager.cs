@@ -1,56 +1,42 @@
 using System;
 using System.Collections.Generic;
-using DefaultNamespace;
 using UnityEngine;
 
 public class LaunchPadManager : MonoBehaviour
 {
     [SerializeField] private CoinList list;
     public int[] lockedCoinIds = new int[4];
-    public List<LaunchPadItem> LaunchPadItems = new List<LaunchPadItem>();
-
-    private List<int> _unlockedCoins;
-    private List<int> _allCoinIds;
+    public List<LaunchPadItem> launchPadItems = new List<LaunchPadItem>();
     
-    private void OnEnable()
+    public void UpdateList(int childIndex)
     {
-        _allCoinIds = GetAllCoinIds();
-        _unlockedCoins = AppData.UnlockedCoins;
+        if(childIndex != 3)
+            return;
+        
         lockedCoinIds = GetFirstLockedCoins(lockedCoinIds.Length).ToArray();
         
         Debug.LogWarning("Gathered locked coin ids");
 
         for (int i = 0; i < lockedCoinIds.Length; i++)
         {
-            LaunchPadItems[i].SetCoin(GatherCoin(lockedCoinIds[i]));
+            launchPadItems[i].SetCoin(GatherCoin(lockedCoinIds[i]));
         }
         
         Debug.LogWarning("Set locked coin ids");
         
-    }
-
-    private List<int> GetAllCoinIds()
-    {
-        List<int> allCoins = new List<int>();
-        
-        foreach (var coin in list.coins)
-        {
-            allCoins.Add(coin.id);
-        }
-
-        return allCoins;
     }
     
     // Find the first x coins in the list that are not unlocked
     private List<int> GetFirstLockedCoins(int count)
     {
         List<int> lockedCoins = new List<int>();
+        List<Coin> coins = list.coins;
 
-        for (int i = 0; i < list.coins.Count; i++)
+        foreach (var c in coins)
         {
-            if (!_unlockedCoins.Contains(_allCoinIds[i]))
+            if (!c.isUnlocked)
             {
-                lockedCoins.Add(_allCoinIds[i]);
+                lockedCoins.Add(c.id);
 
                 // Stop when we have collected the desired count
                 if (lockedCoins.Count == count)
