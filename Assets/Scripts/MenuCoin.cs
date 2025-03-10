@@ -3,9 +3,11 @@ using System.Collections;
 using DG.Tweening;
 using TMPro;
 using UI;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using Sequence = DG.Tweening.Sequence;
 
 public class MenuCoin : MonoBehaviour
 {
@@ -70,13 +72,15 @@ public class MenuCoin : MonoBehaviour
     {
         _onCoinUpdate += SetPriceText;
         _onCoinUpdate += SetPercentageText;
-        CoinSpawner.instance.onCoinDespawn += DestoryAction;
+        CoinSpawner.Instance.onCoinDespawn += DestroyAction;
     }
 
     private void OnDisable()
     {
         _onCoinUpdate -= SetPriceText;
         _onCoinUpdate -= SetPercentageText;
+        CoinSpawner.Instance.onCoinDespawn -= DestroyAction;
+
     }
 
     private void OnDestroy()
@@ -94,7 +98,7 @@ public class MenuCoin : MonoBehaviour
         _coin.previousPrice = _coin.price;
         icon.sprite = _coin.icon;
         
-        float boosterEffect = _coin.price / AppData.GameLevelInfo.maxPrice;
+        float boosterEffect = Random.Range(1, 10);
         cloudyMessageController.InitializeCloudyMessage(message, boosterEffect);
 
         priceGraph = FindObjectOfType<PriceGraph>();
@@ -108,14 +112,14 @@ public class MenuCoin : MonoBehaviour
         if (quantity > 0)
         {
             Wallet.Instance.BuyCoin(_coin, quantity);
-            CoinSpawner.instance.DOOnCoinUse(_coin);
+            CoinSpawner.Instance.DOOnCoinUse(_coin);
         }
     }
     
     public void SellCoin()
     {
         Wallet.Instance.SellCoin(_coin);
-        CoinSpawner.instance.DOOnCoinNoUse(_coin);
+        CoinSpawner.Instance.DOOnCoinNoUse(_coin);
     }
 
     public static void SetBullishMarket(float intensity = 0.5f)
@@ -256,9 +260,9 @@ public class MenuCoin : MonoBehaviour
         }
     }
 
-    private void DestoryAction(Coin coin)
+    private void DestroyAction(Coin coin)
     {
-        if (coin == _coin)
+        if (coin == _coin && transform)
         {
             _onDestroyAction = true;
             coinButton.interactable = false;
@@ -322,7 +326,6 @@ public class MenuCoin : MonoBehaviour
         {
             if (_onDestroyAction)
             {
-               Debug.LogError($"{_coin.id} destroy action called");
                break;
             }
             

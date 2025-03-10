@@ -15,12 +15,12 @@ MonoBehaviour:
   id: 9
   Name: Dog_9
   icon: {fileID: 21300000, guid: e470a2b072c8a4b4bba2f359ca37ee83, type: 3}
-  price: 0.2
-  previousPrice: 0.2
-  stagePrice: 0
-  percentage: 0.18582548
+  price: 9
+  previousPrice: 9
+  stagePrice: 5
+  percentage: 0
   isUnlocked: 1
-  unlockPrice: 1000
-  Team: 0
-  Product: 0
-  Community: 0
+  unlockPrice: 4000
+  Team: 45
+  Product: 50
+  Community: 41

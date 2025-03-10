@@ -32,7 +32,7 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     private void OnEnable()
     {
-        CoinSpawner.instance.onCoinDespawn += DisableInteraction;
+        CoinSpawner.Instance.onCoinDespawn += DisableInteraction;
     }
 
     private void Start()
@@ -41,14 +41,14 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _circleCollider2D = GetComponent<CircleCollider2D>();
 
-        _marketArea = CoinSpawner.instance.SpawnArea;
-        _walletArea = CoinSpawner.instance.WalletArea;
-        _walletEntrancePosY = CoinSpawner.instance.WalletEntrance.position.y;
+        _marketArea = CoinSpawner.Instance.SpawnArea;
+        _walletArea = CoinSpawner.Instance.WalletArea;
+        _walletEntrancePosY = CoinSpawner.Instance.WalletEntrance.position.y;
     }
     
     private void OnDisable()
     {
-        CoinSpawner.instance.onCoinDespawn -= DisableInteraction;
+        CoinSpawner.Instance.onCoinDespawn -= DisableInteraction;
     }
 
     private void FixedUpdate()
@@ -68,7 +68,7 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData data)
     {
-        CoinSpawner.instance.DOOnCoinUse(_menuCoin.Coin);
+        CoinSpawner.Instance.DOOnCoinUse(_menuCoin.Coin);
         
         ControlLayers();
     }

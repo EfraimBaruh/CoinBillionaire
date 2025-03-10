@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e2de80cf3ea840b48ad09d87f5cc22d, type: 3}
+  m_Name: walletMarket
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 8a693093f5e964325af0ac85af8097db, type: 3}
+  clipType: 1
+  volume: 1
+  loop: 0
+  priority: 128

@@ -37,7 +37,8 @@ public class SplashManager : MonoBehaviour
     private void OnDestroy()
     {
         // Kill the tween when the object is destroyed to prevent memory leaks
-        appNameImage.transform.DOKill();
+        if (appNameImage)
+            appNameImage.transform.DOKill();
     }
 
     private IEnumerator OpenGame()

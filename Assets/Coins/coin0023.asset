@@ -19,3 +19,8 @@ MonoBehaviour:
   previousPrice: 0.2
   stagePrice: 0
   percentage: 0.49240386
+  isUnlocked: 0
+  unlockPrice: 1000
+  Team: 0
+  Product: 0
+  Community: 0

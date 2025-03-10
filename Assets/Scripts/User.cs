@@ -35,7 +35,7 @@ public class User : MonoBehaviour
     public UnityEvent<string> totalMoneyUpdated;
     public UnityEvent<string> cashUpdated;
     public UnityEvent assetsUpdated;
-    public UnityEvent unlockedCoinsUpdated;
+    public UnityEvent<Coin> unlockedCoinsUpdated;
     
     private void Awake()
     {
@@ -64,6 +64,11 @@ public class User : MonoBehaviour
             string jsonData = File.ReadAllText(filePath);
             Debug.Log("Found User:" + jsonData);
             userData = JsonConvert.DeserializeObject<UserData>(jsonData);
+
+            if (userData.unlockedCoins == null)
+            {
+                userData.unlockedCoins = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            }
         }
         else
         {
@@ -75,7 +80,7 @@ public class User : MonoBehaviour
                 Cash = 100f,      // Starting cash
                 followerCount = 0f,
                 ownedAssetIds = new List<string>(),
-                unlockedCoins = new List<int>{0,1,2,3,4,5}
+                unlockedCoins = new List<int>{0,1,2,3,4,5,6,7,8,9}
             };
             
             Debug.Log("Initiated a new user:" + JsonConvert.SerializeObject(userData));
@@ -158,7 +163,7 @@ public class User : MonoBehaviour
             userData.unlockedCoins.Add(coin.id);
             SaveUserData();
             UpdateCoinList();
-            unlockedCoinsUpdated?.Invoke();
+            unlockedCoinsUpdated?.Invoke(coin);
             return true;
         }
         return false;
@@ -199,11 +204,8 @@ public class User : MonoBehaviour
     private void UpdateCoinList()
     {
         foreach (var coin in coinList.coins)
-        {
-            if (userData.unlockedCoins.Contains(coin.id))
-            {
-                coin.isUnlocked = true;
-            }
+        { 
+            coin.isUnlocked = userData.unlockedCoins.Contains(coin.id);
         } 
     }
 

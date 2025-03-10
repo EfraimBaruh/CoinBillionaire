@@ -19,7 +19,7 @@ MonoBehaviour:
   previousPrice: 10.614778
   stagePrice: 10
   percentage: 5.961151
-  isUnlocked: 1
+  isUnlocked: 0
   unlockPrice: 1000
   Team: 21
   Product: 25

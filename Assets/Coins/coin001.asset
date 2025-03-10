@@ -15,12 +15,12 @@ MonoBehaviour:
   id: 1
   Name: Cat_1
   icon: {fileID: 21300000, guid: 7450fceac557443509d3411f8dab0097, type: 3}
-  price: 13.848471
-  previousPrice: 13.727154
+  price: 13.875195
+  previousPrice: 13.876393
   stagePrice: 12
-  percentage: 15.403922
+  percentage: 15.626621
   isUnlocked: 1
-  unlockPrice: 1000
+  unlockPrice: 1500
   Team: 34
   Product: 27
   Community: 36

@@ -15,12 +15,12 @@ MonoBehaviour:
   id: 4
   Name: Cat_4
   icon: {fileID: 21300000, guid: d5ac598d674694808b03d4779760235b, type: 3}
-  price: 15.041384
-  previousPrice: 14.506544
+  price: 20.007288
+  previousPrice: 19.986181
   stagePrice: 11
-  percentage: 36.739853
+  percentage: 81.88444
   isUnlocked: 1
-  unlockPrice: 1000
+  unlockPrice: 3000
   Team: 25
   Product: 40
   Community: 24

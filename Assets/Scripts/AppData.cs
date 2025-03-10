@@ -28,15 +28,6 @@ public class AppData
         set
         {
             _gameLevel = value;
-            
-            foreach (var levelInfo in GameManager.Instance.gameLevels.levelInfos)
-            {
-                if (levelInfo.levelID == _gameLevel)
-                {
-                    _levelInfo = levelInfo;
-                    break;
-                }
-            }
         }
     }
     public static float TotalValue

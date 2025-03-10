@@ -42,7 +42,6 @@ public class Wallet : MonoBehaviour
             user.UpdateCash(sellValue); // Use UpdateCash instead of modifying local _cash
             OnStackExchange?.Invoke();
             CalculateTotalAssetValue();
-            Debug.LogError($"Sell coin {coin.id} completed. Cash: {user.userData.Cash}");
         }
         else
         {
@@ -68,7 +67,6 @@ public class Wallet : MonoBehaviour
         user.UpdateCash(-totalCost); // Use UpdateCash instead of modifying local _cash
         OnStackExchange?.Invoke();
         CalculateTotalAssetValue();
-        Debug.LogError($"Buy Coin {coin.id} completed. Quantity: {quantity}, Cash: {user.userData.Cash}");
     }
 
     // Add method to update holdings when coin prices change

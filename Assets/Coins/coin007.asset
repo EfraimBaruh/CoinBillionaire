@@ -15,12 +15,12 @@ MonoBehaviour:
   id: 7
   Name: Dog_7
   icon: {fileID: 21300000, guid: 6f1f650dbbb17406baf5aa023213965a, type: 3}
-  price: 3.432891
-  previousPrice: 3.37072
-  stagePrice: 0.2
-  percentage: 16.164454
+  price: 23.326132
+  previousPrice: 23.328548
+  stagePrice: 15
+  percentage: 55.507545
   isUnlocked: 1
-  unlockPrice: 1000
-  Team: 0
-  Product: 0
-  Community: 0
+  unlockPrice: 4000
+  Team: 40
+  Product: 37
+  Community: 46

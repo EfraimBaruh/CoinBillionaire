@@ -15,12 +15,12 @@ MonoBehaviour:
   id: 2
   Name: Dog_2
   icon: {fileID: 21300000, guid: 9ff597aec688b41fd9f841304fa2006d, type: 3}
-  price: 13.224832
-  previousPrice: 13.541272
+  price: 11.905538
+  previousPrice: 11.911327
   stagePrice: 8
-  percentage: 65.310394
+  percentage: 48.81922
   isUnlocked: 1
-  unlockPrice: 1000
+  unlockPrice: 2000
   Team: 30
   Product: 40
   Community: 21
