@@ -1,11 +1,13 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Managers
 {
     public class ShopItemManager : MonoBehaviour
     {
+        #region Fields
         [SerializeField] private AssetData assetData;
         [SerializeField] private Image iconImage;
         [SerializeField] private TextMeshProUGUI nameText;
@@ -14,7 +16,12 @@ namespace Managers
         [SerializeField] private Button buyButton;
         [SerializeField] private Button sellButton;
         [SerializeField] private Button sellButtonOp;
-    
+        #endregion
+
+        #region Events
+        public UnityEvent<AssetData> onPurchaseSuccess;
+        public UnityEvent<AssetData> onSellSuccess;
+        #endregion
         private void Awake()
         {
             InitializeUI();
@@ -48,7 +55,7 @@ namespace Managers
             {
                 // Purchase successful
                 UpdateButtonStates();
-                // You might want to play a success sound or show a notification here
+                onPurchaseSuccess.Invoke(assetData);
             }
             else
             {
@@ -63,7 +70,7 @@ namespace Managers
             {
                 // Sale successful
                 UpdateButtonStates();
-                // You might want to play a success sound or show a notification here
+                onSellSuccess.Invoke(assetData);
             }
             else
             {

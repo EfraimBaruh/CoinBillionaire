@@ -1,5 +1,6 @@
 using UnityEngine;
 using GameEnums;
+using Managers;
 
 public class SceneManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class SceneManager : MonoBehaviour
     public void SwapScene(Scene scene)
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene((int)scene);
+        AudioManager.Instance.PlayAudioClip("bg_music");
     }
     
     public void SwapScene(string sceneName)

@@ -1,11 +1,14 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.UI.ProceduralImage;
 
 public class LaunchPadItem : MonoBehaviour
 {
     private Coin _coin;
+
+    #region Fields
 
     [SerializeField] private Image icon;
     [SerializeField] private TextMeshProUGUI nameText;
@@ -20,7 +23,10 @@ public class LaunchPadItem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI teamVal;
     [SerializeField] private TextMeshProUGUI productVal;
     [SerializeField] private TextMeshProUGUI communityVal;
+    
+    #endregion
 
+    public UnityEvent<Coin> onUnlockCoin;
 
     public void SetCoin(Coin coin)
     {
@@ -48,6 +54,7 @@ public class LaunchPadItem : MonoBehaviour
         {
             buyButtonText.text = "Bought";
             buyButtonImage.color = Color.grey;
+            onUnlockCoin.Invoke(_coin);
         }
     }
 }

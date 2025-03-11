@@ -57,7 +57,7 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         {
             ControlLayers();
 
-            if (_rigidbody2D.velocity.magnitude == 0)
+            if (_rigidbody2D.linearVelocity.magnitude == 0)
             {
                 ControlParent();
                 ControlAction();
@@ -77,7 +77,7 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         if (data.dragging)
         {
-            _rigidbody2D.velocity = data.delta/4;
+            _rigidbody2D.linearVelocity = data.delta/4;
 
             ControlParent();
             ControlLayers();
@@ -86,11 +86,11 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData data)
     {
-        Vector2 velocity = _rigidbody2D.velocity;
+        Vector2 velocity = _rigidbody2D.linearVelocity;
         DOTween.To(() => velocity, x => velocity = x, Vector2.zero, 0.3f)
             .OnUpdate(() =>
             {
-                _rigidbody2D.velocity = velocity;
+                _rigidbody2D.linearVelocity = velocity;
             }).OnComplete(() =>
             {
                 var parent = ControlParent();
@@ -140,7 +140,7 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     private void ControlLayers()
     {
-        if (Mathf.Abs(_rigidbody2D.velocity.magnitude) > 0)
+        if (Mathf.Abs(_rigidbody2D.linearVelocity.magnitude) > 0)
         {
             gameObject.layer = coinLayerList.onDragLayer;
         }
@@ -158,13 +158,13 @@ public class CoinActions : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public void SendBacktoMarket()
     {
 
-        if (InWallet() && _rigidbody2D.velocity.magnitude == 0)
+        if (InWallet() && _rigidbody2D.linearVelocity.magnitude == 0)
         {
-            _rigidbody2D.velocity = Vector2.up * 50;
+            _rigidbody2D.linearVelocity = Vector2.up * 50;
             _inAction = true;
             SendBacktoMarket();
         }
-        else if(_rigidbody2D.velocity.magnitude > 0)
+        else if(_rigidbody2D.linearVelocity.magnitude > 0)
         {
             ControlParent();
             OnEndDrag(new PointerEventData(EventSystem.current));

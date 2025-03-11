@@ -9,7 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 5e7dc6b80a3da4132bd63208a0c0d816, type: 3}
   m_Name: MemeHypeAudios
   m_EditorClassIdentifier: Assembly-CSharp:ScriptableObjects:AudioClipDatabase
-  audioClips: []
+  audioClips:
+  - {fileID: 11400000, guid: e54c4532d17104242aa32a32bb6eb88b, type: 2}
+  - {fileID: 11400000, guid: a3789161e6eb44b34be4cc93bd58d36c, type: 2}
+  - {fileID: 11400000, guid: 4f3afd6d269d54ff4a0cb7196feb3ecd, type: 2}
+  - {fileID: 11400000, guid: 4017a53e024734c19becb816b5969058, type: 2}
+  - {fileID: 11400000, guid: e567bdc9012614962a9a67f66fb72190, type: 2}

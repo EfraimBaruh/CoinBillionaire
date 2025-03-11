@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e2de80cf3ea840b48ad09d87f5cc22d, type: 3}
   m_Name: purchase
   m_EditorClassIdentifier: 
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 05eda73884039416babc3eb860b77261, type: 3}
   clipType: 1
   volume: 1
   loop: 0

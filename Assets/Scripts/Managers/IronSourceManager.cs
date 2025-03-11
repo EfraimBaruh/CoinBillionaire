@@ -5,15 +5,15 @@ namespace Managers
 {
     public class IronSourceManager : MonoBehaviour
     {
-        private string appKey = "YOUR_APP_KEY_HERE";
+        private string appKey = "214ccb4a5";
 
         // Action callbacks
         private Action onOpen;
         private Action onClose;
         private Action onFail;
         private Action<int> onReward;
-        private Action onStart;
-        private Action onEnd;
+        private Action onLoadFail;
+        private Action onUnAvailable;
         private Action onClick;
 
         private void Start()
@@ -27,13 +27,14 @@ namespace Managers
             IronSource.Agent.validateIntegration();
 
             // Subscribe to IronSource events
-            IronSourceEvents.onRewardedVideoAdOpenedEvent += HandleOnOpen;
-            IronSourceEvents.onRewardedVideoAdClosedEvent += HandleOnClose;
-            IronSourceEvents.onRewardedVideoAdShowFailedEvent += HandleOnFail;
-            IronSourceEvents.onRewardedVideoAdRewardedEvent += HandleOnReward;
-            IronSourceEvents.onRewardedVideoAdStartedEvent += HandleOnStart;
-            IronSourceEvents.onRewardedVideoAdEndedEvent += HandleOnEnd;
-            IronSourceEvents.onRewardedVideoAdClickedEvent += HandleOnClick;
+            IronSourceRewardedVideoEvents.onAdRewardedEvent += HandleOnReward;
+            IronSourceRewardedVideoEvents.onAdClickedEvent +=  HandleOnClick;
+            IronSourceRewardedVideoEvents.onAdOpenedEvent +=   HandleOnOpen;
+            IronSourceRewardedVideoEvents.onAdClosedEvent +=   HandleOnClose;
+            IronSourceRewardedVideoEvents.onAdUnavailableEvent += HandleOnAdUnAvailable;
+            IronSourceRewardedVideoEvents.onAdShowFailedEvent  += HandleOnFail;
+            IronSourceRewardedVideoEvents.onAdLoadFailedEvent  += HandleOnLoadFail;
+            
         }
 
         public IronSourceManager ShowRewardedVideo()
@@ -76,21 +77,21 @@ namespace Managers
             return this;
         }
 
-        public IronSourceManager OnStart(Action callback)
-        {
-            onStart = callback;
-            return this;
-        }
-
-        public IronSourceManager OnEnd(Action callback)
-        {
-            onEnd = callback;
-            return this;
-        }
-
         public IronSourceManager OnClick(Action callback)
         {
             onClick = callback;
+            return this;
+        }
+
+        public IronSourceManager OnUnavailable(Action callback)
+        {
+            onUnAvailable = callback;
+            return this;
+        }
+
+        public IronSourceManager OnLoadFail(Action callback)
+        {
+            onLoadFail = callback;
             return this;
         }
 
@@ -98,61 +99,58 @@ namespace Managers
 
         #region IronSource Callbacks
 
-        private void HandleOnOpen()
+        private void HandleOnOpen(IronSourceAdInfo adInfo)
         {
             Debug.Log("Rewarded Video Ad Opened");
             onOpen?.Invoke();
         }
 
-        private void HandleOnClose()
+        private void HandleOnClose(IronSourceAdInfo adInfo)
         {
             Debug.Log("Rewarded Video Ad Closed");
             onClose?.Invoke();
         }
 
-        private void HandleOnFail(IronSourceError error)
+        private void HandleOnFail(IronSourceError error, IronSourceAdInfo adInfo)
         {
             Debug.LogError($"Rewarded Video Ad Show Failed: {error.getDescription()}");
             onFail?.Invoke();
         }
 
-        private void HandleOnReward(IronSourcePlacement placement)
+        private void HandleOnReward(IronSourcePlacement placement, IronSourceAdInfo adInfo)
         {
             int rewardAmount = placement.getRewardAmount();
             Debug.Log($"Reward received: {rewardAmount}");
             onReward?.Invoke(rewardAmount);
         }
 
-        private void HandleOnStart()
-        {
-            Debug.Log("Rewarded Video Ad Started");
-            onStart?.Invoke();
-        }
-
-        private void HandleOnEnd()
-        {
-            Debug.Log("Rewarded Video Ad Ended");
-            onEnd?.Invoke();
-        }
-
-        private void HandleOnClick(IronSourcePlacement placement)
+        private void HandleOnClick(IronSourcePlacement placement, IronSourceAdInfo adInfo)
         {
             Debug.Log($"Rewarded Video Ad Clicked: {placement.getPlacementName()}");
             onClick?.Invoke();
         }
 
+        private void HandleOnAdUnAvailable()
+        {
+            Debug.Log($"Rewarded Video Ad Unavailable:");
+        }
+
+        private void HandleOnLoadFail(IronSourceError error)
+        {
+            Debug.Log($"Rewarded Video Ad Load failed: {error.getDescription()}");
+        }
         #endregion
 
         private void OnDestroy()
         {
             // Unsubscribe from IronSource events
-            IronSourceEvents.onRewardedVideoAdOpenedEvent -= HandleOnOpen;
-            IronSourceEvents.onRewardedVideoAdClosedEvent -= HandleOnClose;
-            IronSourceEvents.onRewardedVideoAdShowFailedEvent -= HandleOnFail;
-            IronSourceEvents.onRewardedVideoAdRewardedEvent -= HandleOnReward;
-            IronSourceEvents.onRewardedVideoAdStartedEvent -= HandleOnStart;
-            IronSourceEvents.onRewardedVideoAdEndedEvent -= HandleOnEnd;
-            IronSourceEvents.onRewardedVideoAdClickedEvent -= HandleOnClick;
+            IronSourceRewardedVideoEvents.onAdRewardedEvent -= HandleOnReward;
+            IronSourceRewardedVideoEvents.onAdClickedEvent  -= HandleOnClick;
+            IronSourceRewardedVideoEvents.onAdOpenedEvent   -= HandleOnOpen;
+            IronSourceRewardedVideoEvents.onAdClosedEvent   -= HandleOnClose;
+            IronSourceRewardedVideoEvents.onAdUnavailableEvent -= HandleOnAdUnAvailable;
+            IronSourceRewardedVideoEvents.onAdShowFailedEvent  -= HandleOnFail;
+            IronSourceRewardedVideoEvents.onAdLoadFailedEvent  -= HandleOnLoadFail;
         }
     }
 }*/
